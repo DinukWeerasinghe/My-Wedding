@@ -133,6 +133,18 @@ function App() {
     };
   }, []);
 
+  const [guestName, setGuestName] = useState("your");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nameParam = params.get("name");
+    if (nameParam) {
+      // Decode and capitalize the name
+      const decodedName = decodeURIComponent(nameParam).replace(/_/g, " ");
+      setGuestName(decodedName + "'s");
+    }
+  }, []);
+
   useEffect(() => {
     const interval = window.setInterval(() => setCountdown(getCountdown()), 1000);
     return () => window.clearInterval(interval);
@@ -308,7 +320,7 @@ function App() {
           videoFallback={videoFallback}
           onVideoError={() => setVideoFallback(true)}
         />
-        <HeroSection heroBackdropRef={heroBackdropRef} />
+        <HeroSection heroBackdropRef={heroBackdropRef} guestName={guestName} />
         <CountdownSection countdown={countdown} />
         <TimelineSection />
         <LocationSection />
@@ -346,7 +358,9 @@ function EnvelopeIntro({ hidden, onEnter }) {
           <div className="envelope-front envelope-front-left"></div>
           <div className="envelope-front envelope-front-right"></div>
           <div className="envelope-front envelope-front-bottom"></div>
-          <div className="envelope-flap"></div>
+          <div className="envelope-flap">
+            <div className="seal-text">D&amp;N</div>
+          </div>
           <div className="envelope-line envelope-line-one"></div>
           <div className="envelope-line envelope-line-two"></div>
         </div>
@@ -406,12 +420,13 @@ function SaveDateSection({ videoRef, videoFallback, onVideoError }) {
   );
 }
 
-function HeroSection({ heroBackdropRef }) {
+function HeroSection({ heroBackdropRef, guestName }) {
   return (
     <section className="section hero-invitation" id="invitation" aria-labelledby="invitationTitle">
       <div className="hero-backdrop" ref={heroBackdropRef} aria-hidden="true"></div>
       <div className="section-inner invitation-grid">
         <div className="photo-wrap reveal">
+          <div className="photo-bloom"></div>
           {/* COUPLE PHOTO: Replace this placeholder URL with your couple photo. */}
           <img
             src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1100&q=80"
@@ -425,8 +440,12 @@ function HeroSection({ heroBackdropRef }) {
           <span className="eyebrow">Together with their families</span>
           <p>We are delighted to invite you</p>
           <h2 id="invitationTitle">Dinuka &amp; Nimasha</h2>
-          <p>Request the honour of your presence</p>
-          <div className="ornament" aria-hidden="true"></div>
+          <p>Request the honour of <strong>{guestName}</strong> presence</p>
+          <div className="floral-divider" aria-hidden="true">
+            <span className="divider-line"></span>
+            <span className="divider-icon">❀</span>
+            <span className="divider-line"></span>
+          </div>
           <div className="invitation-details">
             <span>Poruwa ceremony at 9.10 AM</span>
             <span>Capital City Hotel, Badulla</span>
@@ -472,6 +491,11 @@ function TimelineSection() {
         <div className="section-heading reveal">
           <span className="eyebrow">Wedding day</span>
           <h2 id="agendaTitle">A Gentle Timeline</h2>
+          <div className="floral-divider" aria-hidden="true">
+            <span className="divider-line"></span>
+            <span class="divider-icon">❀</span>
+            <span className="divider-line"></span>
+          </div>
         </div>
 
         {/* AGENDA: Edit, remove, or add timeline items in the timelineItems array near the top of this file. */}
