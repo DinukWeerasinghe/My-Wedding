@@ -1,8 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MUSIC_SOURCE, RSVP_ENDPOINT } from "./config.js";
+import "./styles.css";
 
 const weddingDate = new Date("2026-08-26T09:10:00+05:30");
 const saveDateVideoUrl = "/Wedding Save the Date Video.mp4";
+
+const weddingDetails = {
+  date: "26 August 2026",
+  time: "9:10 AM onwards",
+  venue: "Capital City Hotel, Badulla",
+  dressCode: "Formal Attire",
+};
 
 const galleryImages = [
   {
@@ -32,7 +40,7 @@ const timelineItems = [
   },
   {
     icon: "heart-handshake",
-    time: "9.10 AM",
+    time: "9:10 AM",
     title: "Poruwa Ceremony",
     description: "The traditional ceremony begins with blessings, grace, and love.",
   },
@@ -45,7 +53,7 @@ const timelineItems = [
   {
     icon: "utensils",
     time: "Midday",
-    title: "Lunch / Reception",
+    title: "Lunch & Reception",
     description: "Share a lovingly prepared meal with our families and guests.",
   },
   {
@@ -358,6 +366,7 @@ function App() {
           onVideoError={() => setVideoFallback(true)}
         />
         <HeroSection heroBackdropRef={heroBackdropRef} guestName={guestName} />
+        <DetailsSection />
         <CountdownSection countdown={countdown} />
         <TimelineSection />
         <LocationSection />
@@ -573,7 +582,7 @@ function TimelineSection() {
           <h2 id="agendaTitle">A Gentle Timeline</h2>
           <div className="floral-divider" aria-hidden="true">
             <span className="divider-line"></span>
-            <span class="divider-icon">❀</span>
+            <span className="divider-icon">❀</span>
             <span className="divider-line"></span>
           </div>
         </div>
@@ -595,6 +604,44 @@ function TimelineSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function DetailsSection() {
+  return (
+    <section className="section details-section" id="details" aria-labelledby="detailsTitle">
+      <div className="section-inner">
+        <div className="section-heading reveal">
+          <span className="eyebrow">Wedding Details</span>
+          <h2 id="detailsTitle">Celebration Details</h2>
+        </div>
+
+        <div className="details-grid reveal">
+          <DetailCard icon="calendar" label="Date" value={weddingDetails.date} />
+          <DetailCard icon="clock" label="Time" value={weddingDetails.time} />
+          <DetailCard icon="map-pin" label="Venue" value={weddingDetails.venue} />
+          <DetailCard icon="sparkles" label="Dress Code" value={weddingDetails.dressCode} />
+        </div>
+
+        <div className="details-note reveal">
+          <p>We kindly request your RSVP by <strong>10 August 2026</strong></p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DetailCard({ icon, label, value }) {
+  return (
+    <div className="detail-card">
+      <div className="detail-icon">
+        <i data-lucide={icon} aria-hidden="true"></i>
+      </div>
+      <div className="detail-content">
+        <span className="detail-label">{label}</span>
+        <strong className="detail-value">{value}</strong>
+      </div>
+    </div>
   );
 }
 
@@ -629,7 +676,6 @@ function LocationSection() {
         </div>
 
         <div className="map-card reveal">
-          {/* GOOGLE MAP EMBED: Replace the iframe src below with your exact Google Maps embed link. */}
           <iframe
             title="Map to Capital City Hotel, Badulla"
             src="https://www.google.com/maps?q=Capital%20City%20Hotel%20Badulla&output=embed"
