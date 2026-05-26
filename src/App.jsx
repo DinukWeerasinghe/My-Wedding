@@ -12,66 +12,60 @@ const weddingDetails = {
   dressCode: "Formal Attire",
 };
 
+// 12 Real Wedding Images from the couple's assets
 const galleryImages = [
-  {
-    src: "https://images.unsplash.com/photo-1494955870715-979ca4f13bf0?auto=format&fit=crop&w=900&q=80",
-    alt: "Wedding detail placeholder",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
-    alt: "Wedding couple placeholder",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=80",
-    alt: "Invitation card placeholder",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80",
-    alt: "Wedding flowers placeholder",
-  },
+  { src: "/images/photo10.c881da68d3cf7b9dab07.png", alt: "Dinuka & Nimasha - Elegant Pose" },
+  { src: "/images/photo11.7892a6d8745a7c02f7d6.png", alt: "Dinuka & Nimasha - Joyful Walk" },
+  { src: "/images/photo12.8c94156b0a6c2297a62b.png", alt: "Dinuka & Nimasha - Ring Exchange" },
+  { src: "/images/photo1.65cd987bc86654a16c94.png", alt: "Dinuka & Nimasha - Studio Portrait" },
+  { src: "/images/photo2.3d6a2a329b03b079fb95.png", alt: "Dinuka & Nimasha - Candid Smile" },
+  { src: "/images/photo3.090eae98f27e86000181.png", alt: "Dinuka & Nimasha - Soft Gaze" },
+  { src: "/images/photo4.79ad4c593c7971828169.png", alt: "Dinuka & Nimasha - Gentle Hug" },
+  { src: "/images/photo5.bb2925991ed5b526170e.png", alt: "Dinuka & Nimasha - Outdoor Romance" },
+  { src: "/images/photo6.a68d48b383b9499d6188.png", alt: "Dinuka & Nimasha - Sunset Love" },
+  { src: "/images/photo7.eaf26b9868f5fa3e5e54.png", alt: "Dinuka & Nimasha - Traditional Gown" },
+  { src: "/images/photo8.93dfdec8d7f9131146fd.png", alt: "Dinuka & Nimasha - Groom Portrait" },
+  { src: "/images/photo9.19ca8d36b05343bc5902.png", alt: "Dinuka & Nimasha - Bride Portrait" },
 ];
 
-const timelineItems = [
-  {
-    icon: "flower-2",
-    time: "Morning",
-    title: "Guest Arrival",
-    description: "A warm welcome as family and friends gather for the celebration.",
-  },
-  {
-    icon: "heart-handshake",
-    time: "9:10 AM",
-    title: "Poruwa Ceremony",
-    description: "The traditional ceremony begins with blessings, grace, and love.",
-  },
-  {
-    icon: "sparkles",
-    time: "After Ceremony",
-    title: "Wedding Celebration",
-    description: "Celebrate the beginning of a beautiful new chapter together.",
-  },
-  {
-    icon: "utensils",
-    time: "Midday",
-    title: "Lunch & Reception",
-    description: "Share a lovingly prepared meal with our families and guests.",
-  },
-  {
-    icon: "camera",
-    time: "Afternoon",
-    title: "Blessings & Photography",
-    description: "Gentle memories, portraits, blessings, and a graceful farewell.",
-  },
+// Preloaded seating data for Table Seating search
+const seatingDatabase = [
+  { name: "Dinuka Weerasinghe", table: "1", tableName: "Bridal Table" },
+  { name: "Nimasha Wijesiri", table: "1", tableName: "Bridal Table" },
+  { name: "Mr. Wijesiri", table: "2", tableName: "Bride's Immediate Family" },
+  { name: "Mrs. Wijesiri", table: "2", tableName: "Bride's Immediate Family" },
+  { name: "Mr. Weerasinghe", table: "2", tableName: "Groom's Immediate Family" },
+  { name: "Mrs. Weerasinghe", table: "2", tableName: "Groom's Immediate Family" },
+  { name: "Amara Wijesiri", table: "2", tableName: "Bride's Immediate Family" },
+  { name: "Pathum Weerasinghe", table: "3", tableName: "Groom's Close Family" },
+  { name: "Ruwan Perera", table: "4", tableName: "Groom's Best Friends" },
+  { name: "Kasun Fernando", table: "4", tableName: "Groom's Best Friends" },
+  { name: "Sanduni Silva", table: "5", tableName: "Bride's College Friends" },
+  { name: "Sajith Jayasinghe", table: "5", tableName: "Bride's College Friends" },
+  { name: "Priyantha Jayawardena", table: "6", tableName: "Groom's Relatives" },
+  { name: "Malkanthi Gunawardena", table: "6", tableName: "Bride's Relatives" },
+  { name: "Tharindu Edirisinghe", table: "7", tableName: "University Colleagues" },
+  { name: "Dilhani Senanayake", table: "8", tableName: "Family Friends" },
 ];
 
 function getCountdown() {
   const distance = Math.max(weddingDate.getTime() - Date.now(), 0);
 
+  const daysVal = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hoursVal = Math.floor((distance / (1000 * 60 * 60)) % 24);
+  const minutesVal = Math.floor((distance / (1000 * 60)) % 60);
+  const secondsVal = Math.floor((distance / 1000) % 60);
+
   return {
-    days: String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(3, "0"),
-    hours: String(Math.floor((distance / (1000 * 60 * 60)) % 24)).padStart(2, "0"),
-    minutes: String(Math.floor((distance / (1000 * 60)) % 60)).padStart(2, "0"),
-    seconds: String(Math.floor((distance / 1000) % 60)).padStart(2, "0"),
+    days: String(daysVal).padStart(2, "0"),
+    hours: String(hoursVal).padStart(2, "0"),
+    minutes: String(minutesVal).padStart(2, "0"),
+    seconds: String(secondsVal).padStart(2, "0"),
+    // Percentages for neomorphic circular tracks
+    daysPct: daysVal > 365 ? 1 : daysVal / 365,
+    hoursPct: hoursVal / 24,
+    minutesPct: minutesVal / 60,
+    secondsPct: secondsVal / 60,
   };
 }
 
@@ -84,9 +78,8 @@ function makeFloatingItems(count, type) {
         drift: `${(Math.random() * 160 - 80).toFixed(0)}px`,
         duration: `${14 + Math.random() * 10}s`,
         delay: `${Math.random() * -20}s`,
-        scale: 0.6 + Math.random() * 1,
+        scale: 0.6 + Math.random() * 0.8,
         rotation: Math.random() * 360,
-        blurStart: 0 + Math.random() * 2,
       };
     }
 
@@ -118,20 +111,25 @@ function App() {
   const [backToTopVisible, setBackToTopVisible] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
-  const [galleryIndex, setGalleryIndex] = useState(0);
-  const [galleryAutoPlay, setGalleryAutoPlay] = useState(true);
+
+  // Table Seating search states
+  const [seatingQuery, setSeatingQuery] = useState("");
+  const [seatingResult, setSeatingResult] = useState(null);
+  const [searchedName, setSearchedName] = useState("");
+
+  // Gallery grid lightbox states
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const musicRef = useRef(null);
   const saveDateVideoRef = useRef(null);
   const heroBackdropRef = useRef(null);
   const toastTimerRef = useRef(null);
-  const galleryIntervalRef = useRef(null);
 
   const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 560px)").matches;
-  const petals = useMemo(() => makeFloatingItems(isMobile ? 14 : 24, "petal"), [isMobile]);
-  const sparkles = useMemo(() => makeFloatingItems(isMobile ? 16 : 28, "sparkle"), [isMobile]);
+  const petals = useMemo(() => makeFloatingItems(isMobile ? 12 : 22, "petal"), [isMobile]);
+  const sparkles = useMemo(() => makeFloatingItems(isMobile ? 14 : 26, "sparkle"), [isMobile]);
 
-  useLucideIcons([musicPlaying, submitting, introClosed]);
+  useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex]);
 
   useEffect(() => {
     document.body.classList.toggle("intro-active", !introClosed);
@@ -139,12 +137,7 @@ function App() {
 
   useEffect(() => {
     const loadingTimer = window.setTimeout(() => setLoadingHidden(true), 650);
-    const introTimer = window.setTimeout(() => closeIntro(), 5600);
-
-    return () => {
-      window.clearTimeout(loadingTimer);
-      window.clearTimeout(introTimer);
-    };
+    return () => window.clearTimeout(loadingTimer);
   }, []);
 
   const [guestName, setGuestName] = useState("your");
@@ -153,7 +146,6 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const nameParam = params.get("name");
     if (nameParam) {
-      // Decode and capitalize the name
       const decodedName = decodeURIComponent(nameParam).replace(/_/g, " ");
       setGuestName(decodedName + "'s");
     }
@@ -163,27 +155,6 @@ function App() {
     const interval = window.setInterval(() => setCountdown(getCountdown()), 1000);
     return () => window.clearInterval(interval);
   }, []);
-
-  // Gallery slideshow auto-advance
-  useEffect(() => {
-    if (!galleryAutoPlay) {
-      if (galleryIntervalRef.current) {
-        window.clearInterval(galleryIntervalRef.current);
-        galleryIntervalRef.current = null;
-      }
-      return;
-    }
-
-    galleryIntervalRef.current = window.setInterval(() => {
-      setGalleryIndex((prev) => (prev + 1) % galleryImages.length);
-    }, 3000); // 3 seconds per image
-
-    return () => {
-      if (galleryIntervalRef.current) {
-        window.clearInterval(galleryIntervalRef.current);
-      }
-    };
-  }, [galleryAutoPlay]);
 
   useEffect(() => {
     const revealObserver = new IntersectionObserver(
@@ -195,12 +166,12 @@ function App() {
           }
         });
       },
-      { threshold: 0.16, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
 
     document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
     return () => revealObserver.disconnect();
-  }, []);
+  }, [introClosed]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -208,7 +179,7 @@ function App() {
       setBackToTopVisible(y > 700);
 
       if (heroBackdropRef.current) {
-        heroBackdropRef.current.style.transform = `translateY(${Math.min(y * 0.04, 32)}px)`;
+        heroBackdropRef.current.style.transform = `translateY(${Math.min(y * 0.05, 40)}px)`;
       }
     };
 
@@ -229,11 +200,9 @@ function App() {
     document.querySelector("#save-date")?.scrollIntoView({ behavior: "smooth", block: "start" });
     saveDateVideoRef.current?.play().catch(() => {});
     
-    // Auto-play music when envelope opens (with user gesture handled by browser)
     if (musicRef.current && MUSIC_SOURCE && musicRef.current.paused) {
       musicRef.current.play().catch(() => {
-        // Fallback: Let user tap music button to start
-        console.log("Auto-play blocked, user can tap music button to start");
+        console.log("Audio autoplay blocked by browser");
       });
       setMusicPlaying(true);
     }
@@ -241,7 +210,7 @@ function App() {
 
   async function toggleMusic() {
     if (!MUSIC_SOURCE) {
-      showToast("Music is ready. Add a music file path in src/config.js first.");
+      showToast("Music source is ready. Set MUSIC_SOURCE path in src/config.js.");
       return;
     }
 
@@ -252,11 +221,31 @@ function App() {
         await musicRef.current.play();
         setMusicPlaying(true);
       } catch (error) {
-        showToast("Tap once more to allow music playback on this device.");
+        showToast("Tap once more to enable audio playback.");
       }
     } else {
       musicRef.current.pause();
       setMusicPlaying(false);
+    }
+  }
+
+  // Seating search execution
+  function handleSeatingSearch(e) {
+    e.preventDefault();
+    if (!seatingQuery.trim()) {
+      showToast("Please enter your name to find your table.");
+      return;
+    }
+
+    const normalizedQuery = seatingQuery.trim().toLowerCase();
+    const match = seatingDatabase.find(guest => guest.name.toLowerCase().includes(normalizedQuery));
+
+    if (match) {
+      setSeatingResult(match);
+      setSearchedName(match.name);
+    } else {
+      setSeatingResult({ notFound: true });
+      setSearchedName(seatingQuery);
     }
   }
 
@@ -296,16 +285,34 @@ function App() {
 
     try {
       await sendRsvpToGoogleSheet(rsvpPayload);
-      console.info("RSVP submission sent", rsvpPayload);
-      showToast(`Thank you, ${name}. Your RSVP has been sent.`);
+      showToast(`Thank you, ${name}! Your RSVP has been received.`);
       form.reset();
     } catch (error) {
       console.error("RSVP submission failed", error);
-      showToast("RSVP is not connected yet. Check your Apps Script URL in src/config.js.");
+      showToast("RSVP endpoint unavailable. Check config.js connection.");
     } finally {
       setSubmitting(false);
     }
   }
+
+  // Lightbox handlers
+  const handleOpenLightbox = (index) => {
+    setLightboxIndex(index);
+  };
+
+  const handleCloseLightbox = () => {
+    setLightboxIndex(null);
+  };
+
+  const handlePrevLightbox = (e) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  const handleNextLightbox = (e) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) => (prev + 1) % galleryImages.length);
+  };
 
   return (
     <>
@@ -314,18 +321,21 @@ function App() {
         <div className="loading-line"></div>
       </div>
 
-      <audio ref={musicRef} loop preload="none" src={MUSIC_SOURCE || undefined}></audio>
+      <audio ref={musicRef} loop preload="auto" src={MUSIC_SOURCE || undefined}></audio>
 
+      {/* Floating Action Audio FAB */}
       <button className={`utility-button music-toggle ${musicPlaying ? "is-playing" : ""}`} type="button" onClick={toggleMusic} aria-label="Toggle background music" title="Toggle music">
         <i data-lucide={musicPlaying ? "volume-2" : "volume-x"} aria-hidden="true"></i>
         <span>Music</span>
       </button>
 
+      {/* Back to Top */}
       <button className={`utility-button back-to-top ${backToTopVisible ? "is-visible" : ""}`} type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" title="Back to top">
         <i data-lucide="arrow-up" aria-hidden="true"></i>
         <span>Top</span>
       </button>
 
+      {/* Background Falling Petals */}
       <div className="petal-field" aria-hidden="true">
         {petals.map((petal) => (
           <span
@@ -336,12 +346,13 @@ function App() {
               "--drift": petal.drift,
               animationDuration: petal.duration,
               animationDelay: petal.delay,
-              transform: `scale(${petal.scale})`,
+              transform: `scale(${petal.scale}) rotate(${petal.rotation}deg)`,
             }}
           ></span>
         ))}
       </div>
 
+      {/* Background Sparkles */}
       <div className="sparkle-field" aria-hidden="true">
         {sparkles.map((sparkle) => (
           <span
@@ -360,27 +371,79 @@ function App() {
       <EnvelopeIntro hidden={introClosed} onEnter={closeIntro} />
 
       <main>
+        {/* Section 1: Save the Date Video */}
         <SaveDateSection
           videoRef={saveDateVideoRef}
           videoFallback={videoFallback}
           onVideoError={() => setVideoFallback(true)}
         />
+
+        {/* Section 2: Hero Invitation Card */}
         <HeroSection heroBackdropRef={heroBackdropRef} guestName={guestName} />
+
+        {/* Section 3: Parents & Family Heritage */}
+        <ParentsSection />
+
+        {/* Section 4: Celebrations Details */}
         <DetailsSection />
+
+        {/* Section 5: Neomorphic Circular Countdown */}
         <CountdownSection countdown={countdown} />
-        <TimelineSection />
-        <LocationSection />
-        <GallerySection 
-          images={galleryImages} 
-          currentIndex={galleryIndex}
-          setCurrentIndex={setGalleryIndex}
-          setAutoPlay={setGalleryAutoPlay}
-          autoPlay={galleryAutoPlay}
+
+        {/* Section 6: Interactive Seating Finder Search */}
+        <SeatingSection
+          seatingQuery={seatingQuery}
+          setSeatingQuery={setSeatingQuery}
+          seatingResult={seatingResult}
+          searchedName={searchedName}
+          onSearch={handleSeatingSearch}
+          onClear={() => { setSeatingQuery(""); setSeatingResult(null); }}
         />
+
+        {/* Section 7: Alternate Day Lineup Timeline */}
+        <TimelineSection />
+
+        {/* Section 8: Image Grid Collage with Lightbox */}
+        <GallerySection images={galleryImages} onOpenLightbox={handleOpenLightbox} />
+
+        {/* Section 9: Personal Note to Guests */}
+        <PersonalNoteSection />
+
+        {/* Section 10: Map & Locations */}
+        <LocationSection />
+
+        {/* Section 11: RSVP Google Form Submission */}
         <RsvpSection onSubmit={handleRsvpSubmit} submitting={submitting} />
-        <ClosingSection />
       </main>
 
+      {/* Footer Branding section */}
+      <WeddingFooter />
+
+      {/* Fullscreen Photo Lightbox Modal */}
+      {lightboxIndex !== null && (
+        <div className="lightbox-modal" onClick={handleCloseLightbox} role="dialog" aria-modal="true">
+          <button className="lightbox-close" onClick={handleCloseLightbox} aria-label="Close photo details">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+          
+          <button className="lightbox-nav-btn lightbox-nav-left" onClick={handlePrevLightbox} aria-label="Previous photo">
+            <i data-lucide="chevron-left" aria-hidden="true"></i>
+          </button>
+
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <img src={galleryImages[lightboxIndex].src} alt={galleryImages[lightboxIndex].alt} className="lightbox-img" />
+            <div className="lightbox-caption">{galleryImages[lightboxIndex].alt}</div>
+          </div>
+
+          <button className="lightbox-nav-btn lightbox-nav-right" onClick={handleNextLightbox} aria-label="Next photo">
+            <i data-lucide="chevron-right" aria-hidden="true"></i>
+          </button>
+
+          <div className="lightbox-counter">{lightboxIndex + 1} / {galleryImages.length}</div>
+        </div>
+      )}
+
+      {/* Toast Alert Popups */}
       <div className={`toast ${toast ? "is-visible" : ""}`} role="status" aria-live="polite">
         {toast}
       </div>
@@ -388,26 +451,13 @@ function App() {
   );
 }
 
-function EnvelopeIntro({ hidden, onEnter }) {
-  const handleEnvelopeClick = (e) => {
-    // Only trigger on envelope element or its children
-    if (e.currentTarget === e.target || e.currentTarget.contains(e.target)) {
-      onEnter();
-    }
-  };
+// Subcomponents:
 
+function EnvelopeIntro({ hidden, onEnter }) {
   return (
-    <section className={`intro-envelope ${hidden ? "is-hidden" : ""}`} id="introEnvelope" aria-label="Opening wedding envelope animation">
-      {/* BACKGROUND VIDEO: Plays behind the envelope. Replace with your video URL if desired. */}
-      <video 
-        className="envelope-bg-video" 
-        autoPlay 
-        muted 
-        loop 
-        playsInline
-        preload="metadata"
-      >
-        <source src="/Wedding Save the Date Video.mp4" type="video/mp4" />
+    <section className={`intro-envelope ${hidden ? "is-hidden" : ""}`} id="introEnvelope" aria-label="Opening wedding envelope invitation">
+      <video className="envelope-bg-video" autoPlay muted loop playsInline preload="metadata">
+        <source src={saveDateVideoUrl} type="video/mp4" />
       </video>
 
       <div className="intro-copy">
@@ -418,7 +468,7 @@ function EnvelopeIntro({ hidden, onEnter }) {
       <div 
         className="envelope-stage" 
         aria-hidden="true"
-        onClick={handleEnvelopeClick}
+        onClick={onEnter}
         role="button"
         tabIndex="0"
         onKeyDown={(e) => {
@@ -445,7 +495,6 @@ function EnvelopeIntro({ hidden, onEnter }) {
           <div className="envelope-line envelope-line-two"></div>
         </div>
 
-        {/* Subtle sparkle effects on envelope open */}
         <div className="envelope-sparkles" aria-hidden="true">
           {Array.from({ length: 8 }).map((_, i) => (
             <span key={`sparkle-${i}`} className="envelope-sparkle" style={{
@@ -456,7 +505,7 @@ function EnvelopeIntro({ hidden, onEnter }) {
       </div>
 
       <button className="skip-intro" type="button" onClick={onEnter}>
-        Enter invitation
+        Open Invitation
       </button>
     </section>
   );
@@ -476,18 +525,16 @@ function SaveDateSection({ videoRef, videoFallback, onVideoError }) {
               loop
               playsInline
               preload="metadata"
-              poster="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80"
+              poster="/images/home_photo.c881da68d3cf7b9dab07.png"
               onError={onVideoError}
             >
-              {/* SAVE THE DATE VIDEO: Replace public/Wedding Save the Date Video.mp4 with your final save-the-date video if needed. */}
               <source src={saveDateVideoUrl} type="video/mp4" />
             </video>
 
-            {/* FALLBACK IMAGE: Replace this URL with your save-the-date poster or invitation card image. */}
             <img
               className="video-fallback"
-              src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80"
-              alt="Soft wedding floral fallback"
+              src="/images/home_photo.c881da68d3cf7b9dab07.png"
+              alt="Dinuka and Nimasha Portrait Fallback"
               loading="lazy"
             />
 
@@ -516,10 +563,9 @@ function HeroSection({ heroBackdropRef, guestName }) {
       <div className="section-inner invitation-grid">
         <div className="photo-wrap reveal">
           <div className="photo-bloom"></div>
-          {/* COUPLE PHOTO: Replace this placeholder URL with your couple photo. */}
           <img
-            src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1100&q=80"
-            alt="Couple portrait placeholder"
+            src="/images/home_photo.c881da68d3cf7b9dab07.png"
+            alt="Dinuka & Nimasha Wedding Portrait"
             loading="lazy"
           />
           <div className="photo-caption">26 August 2026</div>
@@ -527,80 +573,65 @@ function HeroSection({ heroBackdropRef, guestName }) {
 
         <div className="invitation-panel reveal">
           <span className="eyebrow">Together with their families</span>
-          <p>We are delighted to invite you</p>
+          <p className="invite-subtitle">We are delighted to invite you</p>
           <h2 id="invitationTitle">Dinuka &amp; Nimasha</h2>
-          <p>Request the honour of <strong>{guestName}</strong> presence</p>
+          <p className="invite-for">Request the honour of <strong>{guestName}</strong> presence</p>
+          
           <div className="floral-divider" aria-hidden="true">
             <span className="divider-line"></span>
             <span className="divider-icon">❀</span>
             <span className="divider-line"></span>
           </div>
+
           <div className="invitation-details">
-            <span>Poruwa ceremony at 9.10 AM</span>
+            <span>Poruwa Ceremony at 9.10 AM</span>
             <span>Capital City Hotel, Badulla</span>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
-function CountdownSection({ countdown }) {
-  return (
-    <section className="section countdown-section" id="countdown" aria-labelledby="countdownTitle">
-      <div className="section-inner">
-        <div className="section-heading reveal">
-          <span className="eyebrow">Counting every moment</span>
-          <h2 id="countdownTitle">Until We Celebrate</h2>
-        </div>
-        <div className="countdown-grid reveal" aria-live="polite">
-          <CountCard value={countdown.days} label="Days" />
-          <CountCard value={countdown.hours} label="Hours" />
-          <CountCard value={countdown.minutes} label="Minutes" />
-          <CountCard value={countdown.seconds} label="Seconds" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CountCard({ value, label }) {
-  return (
-    <div className="count-card">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </div>
-  );
-}
-
-function TimelineSection() {
-  return (
-    <section className="section timeline-section" id="agenda" aria-labelledby="agendaTitle">
-      <div className="section-inner">
-        <div className="section-heading reveal">
-          <span className="eyebrow">Wedding day</span>
-          <h2 id="agendaTitle">A Gentle Timeline</h2>
-          <div className="floral-divider" aria-hidden="true">
-            <span className="divider-line"></span>
-            <span className="divider-icon">❀</span>
-            <span className="divider-line"></span>
+          <div className="hero-invite-actions">
+            <a href="#rsvp" className="premium-button">
+              <i data-lucide="send" aria-hidden="true"></i>
+              RSVP Now
+            </a>
+            <a href="#seating" className="premium-button premium-button-light">
+              <i data-lucide="search" aria-hidden="true"></i>
+              Find My Seat
+            </a>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* AGENDA: Edit, remove, or add timeline items in the timelineItems array near the top of this file. */}
-        <div className="timeline">
-          {timelineItems.map((item) => (
-            <article className="timeline-item reveal" key={item.title}>
-              <div className="timeline-icon">
-                <i data-lucide={item.icon} aria-hidden="true"></i>
-              </div>
-              <div className="timeline-content">
-                <span>{item.time}</span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </div>
-            </article>
-          ))}
+// [NEW Section] Displays the family names in elegant invitation layout
+function ParentsSection() {
+  return (
+    <section className="section parents-section" id="heritage" aria-labelledby="heritageTitle">
+      <div className="section-inner">
+        <div className="parents-card reveal">
+          <span className="eyebrow">A Union of Families</span>
+          <h2 id="heritageTitle">With Love &amp; Blessings</h2>
+          
+          <div className="parents-grid">
+            <div className="parents-side bride-parents">
+              <span className="family-role">Bride's Family</span>
+              <h3>Mr. &amp; Mrs. Wijesiri</h3>
+              <p>Family of Badulla</p>
+            </div>
+            
+            <div className="parents-amp" aria-hidden="true">&amp;</div>
+            
+            <div className="parents-side groom-parents">
+              <span className="family-role">Groom's Family</span>
+              <h3>Mr. &amp; Mrs. Weerasinghe</h3>
+              <p>Family of Colombo</p>
+            </div>
+          </div>
+
+          <div className="parents-note">
+            <p>We invite you to share this sacred moment as our families join together in grace and celebratory harmony.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -612,8 +643,8 @@ function DetailsSection() {
     <section className="section details-section" id="details" aria-labelledby="detailsTitle">
       <div className="section-inner">
         <div className="section-heading reveal">
-          <span className="eyebrow">Wedding Details</span>
-          <h2 id="detailsTitle">Celebration Details</h2>
+          <span className="eyebrow">Celebration Details</span>
+          <h2 id="detailsTitle">Wedding Details</h2>
         </div>
 
         <div className="details-grid reveal">
@@ -642,6 +673,233 @@ function DetailCard({ icon, label, value }) {
         <strong className="detail-value">{value}</strong>
       </div>
     </div>
+  );
+}
+
+// [REPLACED Section] Displays circular neomorphic SVG progress track countdown
+function CountdownSection({ countdown }) {
+  return (
+    <section className="section countdown-section" id="countdown" aria-labelledby="countdownTitle">
+      <div className="section-inner">
+        <div className="section-heading reveal">
+          <span className="eyebrow">Counting every moment</span>
+          <h2 id="countdownTitle">Until We Celebrate</h2>
+        </div>
+        
+        {/* Neomorphic circular rings row */}
+        <div className="cd-neo-row reveal" aria-live="polite">
+          <CircularCountCard value={countdown.days} label="Days" pct={countdown.daysPct} />
+          <CircularCountCard value={countdown.hours} label="Hours" pct={countdown.hoursPct} />
+          <CircularCountCard value={countdown.minutes} label="Minutes" pct={countdown.minutesPct} />
+          <CircularCountCard value={countdown.seconds} label="Seconds" pct={countdown.secondsPct} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CircularCountCard({ value, label, pct }) {
+  // SVG Calculations for circle progress track (Radius = 40, Circumference = 2 * PI * 40 = 251.2)
+  const radius = 40;
+  const circ = 2 * Math.PI * radius;
+  const strokeOffset = circ - (pct * circ);
+
+  return (
+    <div className="ring-card" aria-label={`${value} ${label}`}>
+      <div className="ring-container">
+        <svg className="ring-svg" viewBox="0 0 100 100">
+          <circle className="ring-track" cx="50" cy="50" r={radius} />
+          <circle 
+            className="ring-bar" 
+            cx="50" 
+            cy="50" 
+            r={radius} 
+            strokeDasharray={circ} 
+            strokeDashoffset={strokeOffset} 
+            transform="rotate(-90 50 50)" 
+          />
+        </svg>
+        <div className="ring-inner">
+          <strong className="ring-value">{value}</strong>
+          <span className="ring-label">{label}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// [NEW Section] Seating finder lookup table search widget
+function SeatingSection({ seatingQuery, setSeatingQuery, seatingResult, searchedName, onSearch, onClear }) {
+  return (
+    <section className="section seating-section" id="seating" aria-labelledby="seatingTitle">
+      <div className="section-inner">
+        <div className="seating-card reveal">
+          <div className="seating-header">
+            <span className="eyebrow">Wedding Seating</span>
+            <h2 id="seatingTitle">Find Your Table</h2>
+            <p>Enter your first or last name below to find your assigned seat and table details.</p>
+          </div>
+
+          <form className="seating-search-form" onSubmit={onSearch}>
+            <div className="seating-input-wrap">
+              <i data-lucide="search" className="seating-search-icon" aria-hidden="true"></i>
+              <input 
+                type="text" 
+                className="seating-input" 
+                placeholder="Enter your name (e.g. Perera, Wijesiri)..." 
+                value={seatingQuery}
+                onChange={(e) => setSeatingQuery(e.target.value)}
+                aria-label="Guest seating search"
+              />
+              {seatingQuery && (
+                <button type="button" className="seating-clear-btn" onClick={onClear} aria-label="Clear search">
+                  <i data-lucide="x" aria-hidden="true"></i>
+                </button>
+              )}
+            </div>
+            <button className="premium-button" type="submit">
+              Search Seating
+            </button>
+          </form>
+
+          {/* Results dynamic panel */}
+          {seatingResult && (
+            <div className="seating-result-panel reveal is-visible">
+              {seatingResult.notFound ? (
+                <div className="seating-notfound">
+                  <i data-lucide="search-code" className="result-icon notfound" aria-hidden="true"></i>
+                  <h3>Name Not Found</h3>
+                  <p>We couldn't find "<strong>{searchedName}</strong>" in our seating list. Please double-check spelling or ask our hospitality desk upon arrival.</p>
+                </div>
+              ) : (
+                <div className="seating-found">
+                  <i data-lucide="ticket" className="result-icon found" aria-hidden="true"></i>
+                  <span className="result-welcome">Welcome, guest</span>
+                  <h3>{seatingResult.name}</h3>
+                  <div className="seating-table-badge">
+                    <span className="table-num">Table {seatingResult.table}</span>
+                    <span className="table-name">{seatingResult.tableName}</span>
+                  </div>
+                  <p>We are absolutely thrilled to welcome you to our celebration banquet!</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TimelineSection() {
+  const timelineItems = [
+    { num: "01", time: "9:10 AM", title: "Ceremony Begins", desc: "A warm welcome as family and friends gather to celebrate." },
+    { num: "02", time: "9:15 AM", title: "Poruwa Ceremony", desc: "Traditional ceremonial rituals begin with spiritual blessings and marital bonds." },
+    { num: "03", time: "12:00 PM", title: "Lunch & Reception", desc: "Share a delicious, loving meal and capture beautiful pictures together." },
+    { num: "04", time: "3:30 PM", title: "Going Away", desc: "Graceful farewell blessings as the couple prepares for their new lifetime together." },
+  ];
+
+  return (
+    <section className="section timeline-section" id="agenda" aria-labelledby="agendaTitle">
+      <div className="section-inner">
+        <div className="section-heading reveal">
+          <span className="eyebrow">Wedding lineup</span>
+          <h2 id="agendaTitle">The Wedding Lineup</h2>
+        </div>
+
+        <div className="agenda-list reveal">
+          {timelineItems.map((item, idx) => (
+            <article className={`agenda-row ${idx % 2 === 1 ? 'agenda-row--reverse' : ''}`} key={item.title}>
+              <div className="agenda-time-wrap">
+                <span className="agenda-time">{item.time}</span>
+              </div>
+              <div className="agenda-center">
+                <span className="agenda-line"></span>
+                <span className="agenda-dot"></span>
+                <span className="agenda-line"></span>
+              </div>
+              <div className="agenda-content">
+                <span className="agenda-meta">{item.num}</span>
+                <h3 className="agenda-label">{item.title}</h3>
+                <p className="agenda-desc">{item.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// [REPLACED Section] Displays beautiful 12-image grid editorial collage
+function GallerySection({ images, onOpenLightbox }) {
+  return (
+    <section className="section gallery-section" id="gallery" aria-labelledby="galleryTitle">
+      <div className="section-inner">
+        <div className="gallery-head reveal">
+          <span className="eyebrow">Memories</span>
+          <h2 id="galleryTitle">Moments of Love</h2>
+          <div className="gallery-divider"></div>
+          <p className="gallery-desc">
+            Holding onto the laughter, the quiet moments, and the little sparks of magic that brought us here… every step, every dream, leading to our forever. ✨💍
+          </p>
+        </div>
+
+        {/* Dynamic masonry/grid collage */}
+        <div className="gallery-grid reveal">
+          {images.map((image, index) => (
+            <button 
+              type="button" 
+              className={`gallery-grid-item gallery-grid-item--${index + 1}`} 
+              key={image.src}
+              onClick={() => onOpenLightbox(index)}
+              aria-label={`View full-screen wedding photo ${index + 1}`}
+            >
+              <div className="gallery-media-frame">
+                <img src={image.src} alt={image.alt} loading="lazy" />
+                <div className="gallery-media-overlay">
+                  <i data-lucide="zoom-in" aria-hidden="true"></i>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// [NEW Section] Personal greeting note to all wedding guests
+function PersonalNoteSection() {
+  return (
+    <section className="section personal-note-section" id="note" aria-labelledby="noteTitle">
+      <div className="section-inner note-grid reveal">
+        <div className="note-image-wrap">
+          <img 
+            src="/images/rsvp.7892a6d8745a7c02f7d6.png" 
+            alt="Dinuka and Nimasha Candid Smile Portrait" 
+            className="note-portrait-img"
+            loading="lazy" 
+          />
+        </div>
+        <div className="note-content">
+          <span className="note-eyebrow">A Special Note</span>
+          <h2 id="noteTitle">To Our Lovely Guests</h2>
+          
+          <p className="note-text">
+            With hearts full of love and gratitude, we are so happy to celebrate this beautiful chapter of our lives with you. Your presence means more to us than words can truly express, and having you by our side makes this day even more meaningful.
+          </p>
+          <p className="note-text">
+            Thank you for your love, your blessings, and for being part of our journey. We cannot wait to share laughter, joy, and unforgettable memories with the people who mean so much to us.
+          </p>
+          
+          <div className="note-signature">
+            <span className="signature-salutation">With all our love,</span>
+            <div className="signature-names">Nimasha &amp; Dinuka</div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -689,89 +947,6 @@ function LocationSection() {
   );
 }
 
-function GallerySection({ images, currentIndex, setCurrentIndex, setAutoPlay, autoPlay }) {
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-    setAutoPlay(false);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-    setAutoPlay(false);
-  };
-
-  const handleThumbClick = (index) => {
-    setCurrentIndex(index);
-    setAutoPlay(false);
-  };
-
-  return (
-    <section className="section gallery-section" id="gallery" aria-labelledby="galleryTitle">
-      <div className="section-inner">
-        <div className="section-heading reveal">
-          <span className="eyebrow">Memories</span>
-          <h2 id="galleryTitle">Our Little Gallery</h2>
-        </div>
-
-        <div className="gallery-wrapper reveal">
-          {/* Main Gallery Display */}
-          <div className="gallery-main-container">
-            <div className="gallery-main-frame">
-              {images.map((image, index) => (
-                <div
-                  key={image.src}
-                  className={`gallery-main-item ${index === currentIndex ? 'is-active' : ''}`}
-                >
-                  <img src={image.src} alt={image.alt} />
-                  <div className="photo-bloom" aria-hidden="true"></div>
-                </div>
-              ))}
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-              className="gallery-arrow gallery-arrow-left"
-              onClick={handlePrev}
-              aria-label="Previous photo"
-              title="Previous"
-            >
-              <i data-lucide="chevron-left" aria-hidden="true"></i>
-            </button>
-            <button
-              className="gallery-arrow gallery-arrow-right"
-              onClick={handleNext}
-              aria-label="Next photo"
-              title="Next"
-            >
-              <i data-lucide="chevron-right" aria-hidden="true"></i>
-            </button>
-          </div>
-
-          {/* Thumbnail Strip */}
-          <div className="gallery-thumbs-container">
-            {images.map((image, index) => (
-              <button
-                key={`thumb-${index}`}
-                className={`gallery-thumb ${index === currentIndex ? 'is-active' : ''}`}
-                onClick={() => handleThumbClick(index)}
-                aria-label={`View photo ${index + 1}`}
-                aria-current={index === currentIndex ? 'true' : undefined}
-              >
-                <img src={image.src} alt={`Thumbnail ${index + 1}`} />
-              </button>
-            ))}
-          </div>
-
-          {/* Image Counter */}
-          <div className="gallery-counter">
-            {currentIndex + 1} / {images.length}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function RsvpSection({ onSubmit, submitting }) {
   return (
     <section className="section rsvp-section" id="rsvp" aria-labelledby="rsvpTitle">
@@ -780,7 +955,7 @@ function RsvpSection({ onSubmit, submitting }) {
           <span className="eyebrow">RSVP</span>
           <h2 id="rsvpTitle">Please Confirm Your Attendance</h2>
           <p>Your presence will truly make this day memorable for our family.</p>
-          <p>Please confirm your attendance.</p>
+          <p>Kindly fill out the confirmation details below or get in touch with us directly.</p>
 
           <div className="contact-actions">
             <a className="premium-button" href="tel:+94769055723">
@@ -818,11 +993,11 @@ function RsvpSection({ onSubmit, submitting }) {
             <div className="attendance-options">
               <label>
                 <input type="radio" name="attendance" value="Yes" defaultChecked />
-                <span>Yes</span>
+                <span>Yes, I will attend</span>
               </label>
               <label>
                 <input type="radio" name="attendance" value="No" />
-                <span>No</span>
+                <span>Sorry, I cannot come</span>
               </label>
               <label>
                 <input type="radio" name="attendance" value="Maybe" />
@@ -833,12 +1008,12 @@ function RsvpSection({ onSubmit, submitting }) {
 
           <label>
             <span>Message</span>
-            <textarea name="message" rows="5" placeholder="Leave a note for the couple"></textarea>
+            <textarea name="message" rows="5" placeholder="Leave a loving note for the couple..."></textarea>
           </label>
 
           <button className="submit-button" type="submit" disabled={submitting}>
             <i data-lucide={submitting ? "loader-circle" : "send"} aria-hidden="true"></i>
-            {submitting ? "Sending RSVP" : "Submit RSVP"}
+            {submitting ? "Sending RSVP..." : "Submit RSVP"}
           </button>
         </form>
       </div>
@@ -846,15 +1021,45 @@ function RsvpSection({ onSubmit, submitting }) {
   );
 }
 
-function ClosingSection() {
+// [NEW Section] Premium copyright brand footer widget
+function WeddingFooter() {
   return (
-    <section className="section closing-section" id="closing" aria-labelledby="closingTitle">
-      <div className="section-inner closing-inner reveal">
-        <span className="eyebrow">With love</span>
-        <h2 id="closingTitle">Dinuka &amp; Nimasha</h2>
-        <p>Thank you for being part of our story.</p>
+    <footer className="wedding-footer" role="contentinfo">
+      <div className="footer-inner">
+        <div className="footer-top">
+          <div className="footer-brand">
+            <img className="footer-logo" alt="Dinuka & Nimasha Brand Logo" src="/images/logo.svg" />
+            <div className="footer-brand-text">
+              <p className="footer-kicker">Celebrating</p>
+              <h3>Dinuka &amp; Nimasha</h3>
+              <p className="footer-couple-note">26.08.2026 • Badulla</p>
+            </div>
+          </div>
+          
+          <div className="footer-quick-links">
+            <a href="#save-date" className="footer-link">Save the Date</a>
+            <a href="#invitation" className="footer-link">Invitation</a>
+            <a href="#heritage" className="footer-link">Our Heritage</a>
+            <a href="#seating" className="footer-link">Seating Search</a>
+            <a href="#gallery" className="footer-link">Photo Gallery</a>
+            <a href="#rsvp" className="footer-link">Confirm RSVP</a>
+          </div>
+        </div>
+
+        <div className="footer-divider"></div>
+
+        <div className="footer-bottom">
+          <div className="footer-contacts">
+            <p>Hotlines: <a href="tel:+94769055723">+94 76 905 5723</a> • <a href="tel:+94703901633">+94 70 390 1633</a></p>
+            <p>Email Support: <a href="mailto:planmyguestbookings@gmail.com">planmyguestbookings@gmail.com</a></p>
+          </div>
+          
+          <div className="footer-copyright">
+            <p>&copy; {new Date().getFullYear()} Dinuka &amp; Nimasha. Crafted with love. Powered by <strong>Plan My Guest</strong>.</p>
+          </div>
+        </div>
       </div>
-    </section>
+    </footer>
   );
 }
 
