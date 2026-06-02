@@ -1,3 +1,5 @@
+// noinspection typescript.react.portability.i18next.jsx-not-internationalized
+/* eslint-disable i18next/no-literal-string */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MUSIC_SOURCE, RSVP_ENDPOINT } from "./config.js";
 import "./styles.css";
@@ -209,7 +211,7 @@ function App() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          videoElement.play().catch(() => {});
+          videoElement.play().catch(() => { });
         } else {
           videoElement.pause();
         }
@@ -233,8 +235,8 @@ function App() {
     setIntroClosed(true);
     setEnvelopeOpened(true);
     document.querySelector("#save-date")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    saveDateVideoRef.current?.play().catch(() => {});
-    
+    saveDateVideoRef.current?.play().catch(() => { });
+
     if (musicRef.current && MUSIC_SOURCE && musicRef.current.paused) {
       musicRef.current.play().catch(() => {
         console.log("Audio autoplay blocked by browser");
@@ -478,7 +480,7 @@ function App() {
           <button className="lightbox-close" onClick={handleCloseLightbox} aria-label="Close photo details">
             <i data-lucide="x" aria-hidden="true"></i>
           </button>
-          
+
           <button className="lightbox-nav-btn lightbox-nav-left" onClick={handlePrevLightbox} aria-label="Previous photo">
             <i data-lucide="chevron-left" aria-hidden="true"></i>
           </button>
@@ -513,7 +515,7 @@ function EnvelopeIntro({ hidden, onEnter }) {
     if (hidden) {
       videoRef.current?.pause();
     } else {
-      videoRef.current?.play().catch(() => {});
+      videoRef.current?.play().catch(() => { });
     }
   }, [hidden]);
 
@@ -528,8 +530,8 @@ function EnvelopeIntro({ hidden, onEnter }) {
         <h1>Dinuka &amp; Nimasha</h1>
       </div>
 
-      <div 
-        className="envelope-stage" 
+      <div
+        className="envelope-stage"
         aria-hidden="true"
         onClick={onEnter}
         role="button"
@@ -639,7 +641,7 @@ function HeroSection({ heroBackdropRef, guestName }) {
           <p className="invite-subtitle">We are delighted to invite you</p>
           <h2 id="invitationTitle">Dinuka &amp; Nimasha</h2>
           <p className="invite-for">Request the honour of <strong>{guestName}</strong> presence</p>
-          
+
           <div className="floral-divider" aria-hidden="true">
             <span className="divider-line"></span>
             <span className="divider-icon">❀</span>
@@ -675,16 +677,16 @@ function ParentsSection() {
         <div className="parents-card reveal">
           <span className="eyebrow">A Union of Families</span>
           <h2 id="heritageTitle">With Love &amp; Blessings</h2>
-          
+
           <div className="parents-grid">
             <div className="parents-side bride-parents">
               <span className="family-role">Bride's Family</span>
               <h3>Mr. &amp; Mrs. Wijesiri</h3>
               <p>Family of Badulla</p>
             </div>
-            
+
             <div className="parents-amp" aria-hidden="true">&amp;</div>
-            
+
             <div className="parents-side groom-parents">
               <span className="family-role">Groom's Family</span>
               <h3>Mr. &amp; Mrs. Weerasinghe</h3>
@@ -748,7 +750,7 @@ function CountdownSection({ countdown }) {
           <span className="eyebrow">Counting every moment</span>
           <h2 id="countdownTitle">Until We Celebrate</h2>
         </div>
-        
+
         {/* Neomorphic circular rings row */}
         <div className="cd-neo-row reveal" aria-live="polite">
           <CircularCountCard value={countdown.days} label="Days" pct={countdown.daysPct} />
@@ -772,14 +774,14 @@ function CircularCountCard({ value, label, pct }) {
       <div className="ring-container">
         <svg className="ring-svg" viewBox="0 0 100 100">
           <circle className="ring-track" cx="50" cy="50" r={radius} />
-          <circle 
-            className="ring-bar" 
-            cx="50" 
-            cy="50" 
-            r={radius} 
-            strokeDasharray={circ} 
-            strokeDashoffset={strokeOffset} 
-            transform="rotate(-90 50 50)" 
+          <circle
+            className="ring-bar"
+            cx="50"
+            cy="50"
+            r={radius}
+            strokeDasharray={circ}
+            strokeDashoffset={strokeOffset}
+            transform="rotate(-90 50 50)"
           />
         </svg>
         <div className="ring-inner">
@@ -806,10 +808,10 @@ function SeatingSection({ seatingQuery, setSeatingQuery, seatingResult, searched
           <form className="seating-search-form" onSubmit={onSearch}>
             <div className="seating-input-wrap">
               <i data-lucide="search" className="seating-search-icon" aria-hidden="true"></i>
-              <input 
-                type="text" 
-                className="seating-input" 
-                placeholder="Enter your name (e.g. Perera, Wijesiri)..." 
+              <input
+                type="text"
+                className="seating-input"
+                placeholder="Enter your name (e.g. Perera, Wijesiri)..."
                 value={seatingQuery}
                 onChange={(e) => setSeatingQuery(e.target.value)}
                 aria-label="Guest seating search"
@@ -911,9 +913,9 @@ function GallerySection({ images, onOpenLightbox }) {
         {/* Dynamic masonry/grid collage */}
         <div className="gallery-grid reveal">
           {images.map((image, index) => (
-            <button 
-              type="button" 
-              className={`gallery-grid-item gallery-grid-item--${index + 1}`} 
+            <button
+              type="button"
+              className={`gallery-grid-item gallery-grid-item--${index + 1}`}
               key={image.src}
               onClick={() => onOpenLightbox(index)}
               aria-label={`View full-screen wedding photo ${index + 1}`}
@@ -938,24 +940,24 @@ function PersonalNoteSection() {
     <section className="section personal-note-section" id="note" aria-labelledby="noteTitle">
       <div className="section-inner note-grid reveal">
         <div className="note-image-wrap">
-          <img 
-            src="/images/rsvp.7892a6d8745a7c02f7d6.webp" 
-            alt="Dinuka and Nimasha Candid Smile Portrait" 
+          <img
+            src="/images/rsvp.7892a6d8745a7c02f7d6.webp"
+            alt="Dinuka and Nimasha Candid Smile Portrait"
             className="note-portrait-img"
-            loading="lazy" 
+            loading="lazy"
           />
         </div>
         <div className="note-content">
           <span className="note-eyebrow">A Special Note</span>
           <h2 id="noteTitle">To Our Lovely Guests</h2>
-          
+
           <p className="note-text">
             With hearts full of love and gratitude, we are so happy to celebrate this beautiful chapter of our lives with you. Your presence means more to us than words can truly express, and having you by our side makes this day even more meaningful.
           </p>
           <p className="note-text">
             Thank you for your love, your blessings, and for being part of our journey. We cannot wait to share laughter, joy, and unforgettable memories with the people who mean so much to us.
           </p>
-          
+
           <div className="note-signature">
             <span className="signature-salutation">With all our love,</span>
             <div className="signature-names">Nimasha &amp; Dinuka</div>
@@ -1091,14 +1093,14 @@ function WeddingFooter() {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <img className="footer-logo" alt="Dinuka & Nimasha Brand Logo" src="/images/logo.svg" />
+
             <div className="footer-brand-text">
               <p className="footer-kicker">Celebrating</p>
               <h3>Dinuka &amp; Nimasha</h3>
               <p className="footer-couple-note">26.08.2026 • Badulla</p>
             </div>
           </div>
-          
+
           <div className="footer-quick-links">
             <a href="#save-date" className="footer-link">Save the Date</a>
             <a href="#invitation" className="footer-link">Invitation</a>
@@ -1114,11 +1116,11 @@ function WeddingFooter() {
         <div className="footer-bottom">
           <div className="footer-contacts">
             <p>Hotlines: <a href="tel:+94769055723">+94 76 905 5723</a> • <a href="tel:+94703901633">+94 70 390 1633</a></p>
-            <p>Email Support: <a href="mailto:planmyguestbookings@gmail.com">planmyguestbookings@gmail.com</a></p>
+            <p>Email Support: <a href="mailto:rinixoinfo@gmail.com">rinixoinfo@gmail.com</a></p>
           </div>
-          
+
           <div className="footer-copyright">
-            <p>&copy; {new Date().getFullYear()} Dinuka &amp; Nimasha. Crafted with love. Powered by <strong>Plan My Guest</strong>.</p>
+            <p>&copy; {new Date().getFullYear()} Dinuka &amp; Nimasha. Crafted with love. Powered by <strong>RinixoSystems</strong>.</p>
           </div>
         </div>
       </div>
