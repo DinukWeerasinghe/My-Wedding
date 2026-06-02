@@ -37,6 +37,7 @@ function doPost(e) {
       data.message || "",
       data.submittedAt || "",
       data.pageUrl || "",
+      data.phone || "",
     ]);
 
     return ContentService
@@ -63,6 +64,7 @@ function ensureHeaderRow(sheet) {
     "Message",
     "Submitted At",
     "Page URL",
+    "Phone Number",
   ]);
 }
 ```

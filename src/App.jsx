@@ -311,6 +311,7 @@ function App() {
     const rsvpPayload = {
       event: "Dinuka & Nimasha Wedding",
       name,
+      phone: formData.get("phone"),
       guests: formData.get("guests"),
       attendance: formData.get("attendance"),
       message: formData.get("message"),
@@ -1046,6 +1047,11 @@ function RsvpSection({ onSubmit, submitting }) {
           <label>
             <span>Name</span>
             <input type="text" name="name" autoComplete="name" required />
+          </label>
+
+          <label>
+            <span>Phone Number</span>
+            <input type="tel" name="phone" autoComplete="tel" required placeholder="e.g. 077 123 4567" />
           </label>
 
           <label>
