@@ -14,18 +14,18 @@ const weddingDetails = {
 
 // 12 Real Wedding Images from the couple's assets
 const galleryImages = [
-  { src: "/images/photo10.c881da68d3cf7b9dab07.png", alt: "Dinuka & Nimasha - Elegant Pose" },
-  { src: "/images/photo11.7892a6d8745a7c02f7d6.png", alt: "Dinuka & Nimasha - Joyful Walk" },
-  { src: "/images/photo12.8c94156b0a6c2297a62b.png", alt: "Dinuka & Nimasha - Ring Exchange" },
-  { src: "/images/photo1.65cd987bc86654a16c94.png", alt: "Dinuka & Nimasha - Studio Portrait" },
-  { src: "/images/photo2.3d6a2a329b03b079fb95.png", alt: "Dinuka & Nimasha - Candid Smile" },
-  { src: "/images/photo3.090eae98f27e86000181.png", alt: "Dinuka & Nimasha - Soft Gaze" },
-  { src: "/images/photo4.79ad4c593c7971828169.png", alt: "Dinuka & Nimasha - Gentle Hug" },
-  { src: "/images/photo5.bb2925991ed5b526170e.png", alt: "Dinuka & Nimasha - Outdoor Romance" },
-  { src: "/images/photo6.a68d48b383b9499d6188.png", alt: "Dinuka & Nimasha - Sunset Love" },
-  { src: "/images/photo7.eaf26b9868f5fa3e5e54.png", alt: "Dinuka & Nimasha - Traditional Gown" },
-  { src: "/images/photo8.93dfdec8d7f9131146fd.png", alt: "Dinuka & Nimasha - Groom Portrait" },
-  { src: "/images/photo9.19ca8d36b05343bc5902.png", alt: "Dinuka & Nimasha - Bride Portrait" },
+  { src: "/images/photo10.c881da68d3cf7b9dab07.webp", alt: "Dinuka & Nimasha - Elegant Pose" },
+  { src: "/images/photo11.7892a6d8745a7c02f7d6.webp", alt: "Dinuka & Nimasha - Joyful Walk" },
+  { src: "/images/photo12.8c94156b0a6c2297a62b.webp", alt: "Dinuka & Nimasha - Ring Exchange" },
+  { src: "/images/photo1.65cd987bc86654a16c94.webp", alt: "Dinuka & Nimasha - Studio Portrait" },
+  { src: "/images/photo2.3d6a2a329b03b079fb95.webp", alt: "Dinuka & Nimasha - Candid Smile" },
+  { src: "/images/photo3.090eae98f27e86000181.webp", alt: "Dinuka & Nimasha - Soft Gaze" },
+  { src: "/images/photo4.79ad4c593c7971828169.webp", alt: "Dinuka & Nimasha - Gentle Hug" },
+  { src: "/images/photo5.bb2925991ed5b526170e.webp", alt: "Dinuka & Nimasha - Outdoor Romance" },
+  { src: "/images/photo6.a68d48b383b9499d6188.webp", alt: "Dinuka & Nimasha - Sunset Love" },
+  { src: "/images/photo7.eaf26b9868f5fa3e5e54.webp", alt: "Dinuka & Nimasha - Traditional Gown" },
+  { src: "/images/photo8.93dfdec8d7f9131146fd.webp", alt: "Dinuka & Nimasha - Groom Portrait" },
+  { src: "/images/photo9.19ca8d36b05343bc5902.webp", alt: "Dinuka & Nimasha - Bride Portrait" },
 ];
 
 // Preloaded seating data for Table Seating search
@@ -80,6 +80,7 @@ function makeFloatingItems(count, type) {
         delay: `${Math.random() * -20}s`,
         scale: 0.6 + Math.random() * 0.8,
         rotation: Math.random() * 360,
+        blurred: Math.random() > 0.5,
       };
     }
 
@@ -200,6 +201,27 @@ function App() {
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!introClosed || !saveDateVideoRef.current) return;
+
+    const videoElement = saveDateVideoRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          videoElement.play().catch(() => {});
+        } else {
+          videoElement.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(videoElement);
+    return () => {
+      observer.unobserve(videoElement);
+    };
+  }, [introClosed]);
 
   function showToast(message) {
     setToast(message);
@@ -334,7 +356,7 @@ function App() {
         <div className="loading-line"></div>
       </div>
 
-      <audio ref={musicRef} loop preload="auto" src={MUSIC_SOURCE || undefined}></audio>
+      <audio ref={musicRef} loop preload="none" src={MUSIC_SOURCE || undefined}></audio>
 
       {/* Floating Action Audio FAB */}
       <button className={`utility-button music-toggle ${musicPlaying ? "is-playing" : ""}`} type="button" onClick={toggleMusic} aria-label="Toggle background music" title="Toggle music">
@@ -353,7 +375,7 @@ function App() {
         {petals.map((petal) => (
           <span
             key={petal.id}
-            className="petal"
+            className={`petal ${petal.blurred ? "petal--blurred" : ""}`}
             style={{
               left: petal.left,
               "--drift": petal.drift,
@@ -485,9 +507,19 @@ function App() {
 // Subcomponents:
 
 function EnvelopeIntro({ hidden, onEnter }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (hidden) {
+      videoRef.current?.pause();
+    } else {
+      videoRef.current?.play().catch(() => {});
+    }
+  }, [hidden]);
+
   return (
     <section className={`intro-envelope ${hidden ? "is-hidden" : ""}`} id="introEnvelope" aria-label="Opening wedding envelope invitation">
-      <video className="envelope-bg-video" autoPlay muted loop playsInline preload="metadata">
+      <video ref={videoRef} className="envelope-bg-video" autoPlay muted loop playsInline preload="metadata">
         <source src={saveDateVideoUrl} type="video/mp4" />
       </video>
 
@@ -556,7 +588,7 @@ function SaveDateSection({ videoRef, videoFallback, onVideoError }) {
               loop
               playsInline
               preload="metadata"
-              poster="/images/home_photo.c881da68d3cf7b9dab07.png"
+              poster="/images/home_photo.c881da68d3cf7b9dab07.webp"
               onError={onVideoError}
             >
               <source src={saveDateVideoUrl} type="video/mp4" />
@@ -564,7 +596,7 @@ function SaveDateSection({ videoRef, videoFallback, onVideoError }) {
 
             <img
               className="video-fallback"
-              src="/images/home_photo.c881da68d3cf7b9dab07.png"
+              src="/images/home_photo.c881da68d3cf7b9dab07.webp"
               alt="Dinuka and Nimasha Portrait Fallback"
               loading="lazy"
             />
@@ -595,7 +627,7 @@ function HeroSection({ heroBackdropRef, guestName }) {
         <div className="photo-wrap reveal">
           <div className="photo-bloom"></div>
           <img
-            src="/images/home_photo.c881da68d3cf7b9dab07.png"
+            src="/images/home_photo.c881da68d3cf7b9dab07.webp"
             alt="Dinuka & Nimasha Wedding Portrait"
             loading="lazy"
           />
@@ -907,7 +939,7 @@ function PersonalNoteSection() {
       <div className="section-inner note-grid reveal">
         <div className="note-image-wrap">
           <img 
-            src="/images/rsvp.7892a6d8745a7c02f7d6.png" 
+            src="/images/rsvp.7892a6d8745a7c02f7d6.webp" 
             alt="Dinuka and Nimasha Candid Smile Portrait" 
             className="note-portrait-img"
             loading="lazy" 
