@@ -6,6 +6,8 @@
   --champagne: #c8a86a;
   --champagne-soft: #ead8b8;
   --warm-beige: #eadfce;
+  --rose: #d98f95;
+  --rose-deep: #a95d64;
   --mauve-gray: #7c6a69;
   --sage: #7f8b76;
   --ink: #2c2420;
@@ -18,7 +20,7 @@
   --radius: 8px;
   --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   --font-display: "Playfair Display", Georgia, serif;
-  --font-script: "Great Vibes", "Parisienne", cursive;
+  --font-script: "Great Vibes", "Parisienne", "Monotype Corsiva", "Segoe Script", "Brush Script MT", cursive;
 }
 
 * {
@@ -37,7 +39,9 @@ body {
   background:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E"),
     linear-gradient(180deg, rgba(255, 254, 253, 0.9), rgba(255, 250, 242, 0.95)),
-    linear-gradient(135deg, #fffaf2 0%, #f6d8d7 42%, #eadfce 100%);
+    linear-gradient(135deg, #fffaf2 0%, #f7dada 34%, #ead8b8 68%, #e7eedf 100%);
+  background-size: auto, auto, 220% 220%;
+  animation: romanceWash 22s ease-in-out infinite alternate;
   font-family: var(--font-serif);
   font-size: 18px;
   line-height: 1.6;
@@ -243,7 +247,8 @@ p {
 }
 
 .petal-field,
-.sparkle-field {
+.sparkle-field,
+.heart-field {
   position: fixed;
   inset: 0;
   z-index: 2;
@@ -274,20 +279,56 @@ p {
   animation: sparkleGlow ease-in-out infinite;
 }
 
+.heart-field {
+  z-index: 3;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -30px;
+  width: 11px;
+  height: 11px;
+  opacity: 0;
+  background: linear-gradient(135deg, rgba(217, 143, 149, 0.82), rgba(200, 168, 106, 0.42));
+  box-shadow: 0 6px 18px rgba(169, 93, 100, 0.16);
+  transform: rotate(45deg) scale(var(--heart-scale, 0.8));
+  animation: heartRise ease-in infinite;
+}
+
+.floating-heart::before,
+.floating-heart::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.floating-heart::before {
+  left: -50%;
+}
+
+.floating-heart::after {
+  top: -50%;
+}
+
 .intro-envelope {
   position: fixed;
   inset: 0;
   z-index: 50;
-  display: grid;
-  grid-template-rows: 1fr auto 1fr;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   min-height: 100svh;
-  padding: 28px 18px;
+  padding: clamp(24px, 4svh, 42px) 18px;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 254, 253, 0.96), rgba(255, 250, 242, 0.91)),
-    linear-gradient(135deg, #fffaf2, #f6d8d7 56%, #eadfce);
+    linear-gradient(180deg, rgba(255, 254, 253, 0.94), rgba(255, 250, 242, 0.88)),
+    linear-gradient(135deg, #fffaf2, #f7dada 46%, #ead8b8 74%, #e7eedf);
+  background-size: auto, 190% 190%;
+  animation: romanceWash 18s ease-in-out infinite alternate;
   transition: opacity 1000ms ease, visibility 1000ms ease;
 }
 
@@ -328,7 +369,8 @@ p {
 .intro-copy {
   position: relative;
   z-index: 1;
-  align-self: end;
+  max-width: min(920px, 92vw);
+  flex: 0 0 auto;
   text-align: center;
   animation: introTextIn 1400ms ease both 900ms;
 }
@@ -338,15 +380,21 @@ p {
 }
 
 .intro-copy h1 {
+  margin: 6px 0 0;
   color: var(--accent-script);
+  font-size: clamp(3.6rem, 9vw, 6rem);
+  line-height: 0.92;
   text-shadow: 0 12px 28px rgba(89, 53, 46, 0.16);
+  text-wrap: balance;
 }
 
 .envelope-stage {
   position: relative;
   z-index: 1;
+  flex: 0 0 auto;
   width: min(420px, 90vw);
   height: 300px;
+  margin-top: clamp(72px, 8svh, 96px);
   perspective: 1200px;
 }
 
@@ -382,7 +430,9 @@ p {
     linear-gradient(135deg, var(--champagne), transparent, var(--champagne-soft)) border-box;
   text-align: center;
   box-shadow: 0 18px 42px rgba(89, 64, 54, 0.16);
-  animation: cardReveal 2200ms cubic-bezier(0.2, 0.9, 0.22, 1) both 2100ms;
+  animation:
+    cardReveal 2200ms cubic-bezier(0.2, 0.9, 0.22, 1) both 2100ms,
+    invitationGlow 4200ms ease-in-out infinite 4300ms;
 }
 
 .envelope-card span {
@@ -571,7 +621,8 @@ p {
 .skip-intro {
   position: relative;
   z-index: 1;
-  align-self: start;
+  flex: 0 0 auto;
+  margin-top: clamp(12px, 2.4svh, 28px);
   padding: 11px 18px;
   border: 1px solid rgba(200, 168, 106, 0.46);
   border-radius: var(--radius);
@@ -579,6 +630,14 @@ p {
   background: rgba(255, 254, 253, 0.64);
   box-shadow: 0 14px 32px rgba(89, 64, 54, 0.1);
   backdrop-filter: blur(14px);
+  overflow: hidden;
+  transition: transform 260ms ease, border-color 260ms ease, background 260ms ease;
+}
+
+.skip-intro:hover {
+  transform: translateY(-2px);
+  border-color: rgba(200, 168, 106, 0.72);
+  background: rgba(255, 254, 253, 0.82);
 }
 
 .save-date-section {
@@ -2778,5 +2837,172 @@ p {
     flex-direction: row;
     justify-content: space-between;
     text-align: left;
+  }
+}
+
+/* Romantic motion polish */
+.premium-button,
+.submit-button,
+.scroll-indicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-button::after,
+.submit-button::after,
+.scroll-indicator::after,
+.skip-intro::after {
+  content: "";
+  position: absolute;
+  inset: -45% -65%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.52) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 700ms ease;
+}
+
+.premium-button:hover::after,
+.submit-button:hover::after,
+.scroll-indicator:hover::after,
+.skip-intro:hover::after {
+  transform: translateX(120%);
+}
+
+.save-date-text h2,
+.invitation-panel h2,
+.section-heading h2,
+.seating-header h2,
+.gallery-head h2,
+.note-content h2 {
+  text-shadow: 0 10px 30px rgba(169, 93, 100, 0.13);
+}
+
+.invitation-panel,
+.parents-card,
+.seating-card,
+.rsvp-form,
+.map-card,
+.note-image-wrap {
+  position: relative;
+}
+
+.invitation-panel::after,
+.parents-card::after,
+.seating-card::after,
+.rsvp-form::after,
+.map-card::after,
+.note-image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(217, 143, 149, 0.16);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease, inset 400ms ease;
+}
+
+.invitation-panel:hover::after,
+.parents-card:hover::after,
+.seating-card:hover::after,
+.rsvp-form:hover::after,
+.map-card:hover::after,
+.note-image-wrap:hover::after {
+  inset: 7px;
+  opacity: 1;
+}
+
+.photo-wrap,
+.note-image-wrap,
+.gallery-media-frame {
+  transition: transform 500ms ease, box-shadow 500ms ease, filter 500ms ease;
+}
+
+.photo-wrap:hover,
+.note-image-wrap:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 64px rgba(89, 64, 54, 0.18);
+}
+
+.gallery-media-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 20%, rgba(255, 250, 242, 0.28), transparent 72%);
+  opacity: 0;
+  transform: translateX(-65%);
+  transition: opacity 360ms ease, transform 700ms ease;
+}
+
+.gallery-grid-item:hover .gallery-media-frame::after {
+  opacity: 1;
+  transform: translateX(65%);
+}
+
+.ring-card {
+  animation: ringBreath 5200ms ease-in-out infinite;
+}
+
+.ring-card:nth-child(2) {
+  animation-delay: 260ms;
+}
+
+.ring-card:nth-child(3) {
+  animation-delay: 520ms;
+}
+
+.ring-card:nth-child(4) {
+  animation-delay: 780ms;
+}
+
+.seating-table-badge,
+.submit-button {
+  box-shadow: 0 12px 28px rgba(200, 168, 106, 0.28), 0 0 0 1px rgba(255, 250, 242, 0.3) inset;
+}
+
+@keyframes romanceWash {
+  0% {
+    background-position: center, center, 0% 50%;
+  }
+  100% {
+    background-position: center, center, 100% 50%;
+  }
+}
+
+@keyframes heartRise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0) rotate(45deg) scale(var(--heart-scale, 0.8));
+  }
+  18% {
+    opacity: var(--heart-opacity, 0.26);
+  }
+  72% {
+    opacity: var(--heart-opacity, 0.26);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--sway, 30px), calc(-100svh - 90px), 0) rotate(45deg) scale(var(--heart-scale, 0.8));
+  }
+}
+
+@keyframes invitationGlow {
+  0%,
+  100% {
+    box-shadow: 0 18px 42px rgba(89, 64, 54, 0.16);
+  }
+  50% {
+    box-shadow: 0 24px 54px rgba(169, 93, 100, 0.18), 0 0 30px rgba(200, 168, 106, 0.16);
+  }
+}
+
+@keyframes ringBreath {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
   }
 }

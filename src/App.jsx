@@ -83,6 +83,18 @@ function makeFloatingItems(count, type) {
       };
     }
 
+    if (type === "heart") {
+      return {
+        id: `${type}-${index}`,
+        left: `${8 + Math.random() * 84}%`,
+        sway: `${(Math.random() * 120 - 60).toFixed(0)}px`,
+        duration: `${11 + Math.random() * 8}s`,
+        delay: `${Math.random() * -14}s`,
+        scale: (0.55 + Math.random() * 0.55).toFixed(2),
+        opacity: (0.18 + Math.random() * 0.24).toFixed(2),
+      };
+    }
+
     return {
       id: `${type}-${index}`,
       left: `${Math.random() * 100}%`,
@@ -128,6 +140,7 @@ function App() {
   const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 560px)").matches;
   const petals = useMemo(() => makeFloatingItems(isMobile ? 12 : 22, "petal"), [isMobile]);
   const sparkles = useMemo(() => makeFloatingItems(isMobile ? 14 : 26, "sparkle"), [isMobile]);
+  const hearts = useMemo(() => makeFloatingItems(isMobile ? 5 : 9, "heart"), [isMobile]);
 
   useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex]);
 
@@ -363,6 +376,24 @@ function App() {
               top: sparkle.top,
               animationDuration: sparkle.duration,
               animationDelay: sparkle.delay,
+            }}
+          ></span>
+        ))}
+      </div>
+
+      {/* Background Floating Hearts */}
+      <div className="heart-field" aria-hidden="true">
+        {hearts.map((heart) => (
+          <span
+            key={heart.id}
+            className="floating-heart"
+            style={{
+              left: heart.left,
+              "--sway": heart.sway,
+              "--heart-scale": heart.scale,
+              "--heart-opacity": heart.opacity,
+              animationDuration: heart.duration,
+              animationDelay: heart.delay,
             }}
           ></span>
         ))}
