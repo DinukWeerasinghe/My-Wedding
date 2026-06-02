@@ -43,6 +43,10 @@ async function main() {
       totalSizeAfter += sizeAfter;
 
       console.log(`Saved ${outputName} (${(sizeAfter / (1024)).toFixed(2)} KB) - Reduced by ${((1 - sizeAfter / sizeBefore) * 100).toFixed(1)}%`);
+      
+      // Delete the original source file to prevent duplicate assets and keep the folder clean
+      fs.unlinkSync(inputPath);
+      console.log(`Deleted original: ${file}`);
     } catch (err) {
       console.error(`Error converting ${file}:`, err);
     }

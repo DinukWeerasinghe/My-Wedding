@@ -6,6 +6,7 @@ import "./styles.css";
 
 const weddingDate = new Date("2026-08-26T09:10:00+05:30");
 const saveDateVideoUrl = "/Wedding Save the Date Video.mp4";
+const SHOW_SEATING_FINDER = false; // Toggle to true to display seating finder buttons and lookup forms
 
 const weddingDetails = {
   date: "26 August 2026",
@@ -447,14 +448,16 @@ function App() {
         <CountdownSection countdown={countdown} />
 
         {/* Section 6: Interactive Seating Finder Search */}
-        <SeatingSection
-          seatingQuery={seatingQuery}
-          setSeatingQuery={setSeatingQuery}
-          seatingResult={seatingResult}
-          searchedName={searchedName}
-          onSearch={handleSeatingSearch}
-          onClear={() => { setSeatingQuery(""); setSeatingResult(null); }}
-        />
+        {SHOW_SEATING_FINDER && (
+          <SeatingSection
+            seatingQuery={seatingQuery}
+            setSeatingQuery={setSeatingQuery}
+            seatingResult={seatingResult}
+            searchedName={searchedName}
+            onSearch={handleSeatingSearch}
+            onClear={() => { setSeatingQuery(""); setSeatingResult(null); }}
+          />
+        )}
 
         {/* Section 7: Alternate Day Lineup Timeline */}
         <TimelineSection />
@@ -659,10 +662,12 @@ function HeroSection({ heroBackdropRef, guestName }) {
               <i data-lucide="send" aria-hidden="true"></i>
               RSVP Now
             </a>
-            <a href="#seating" className="premium-button premium-button-light">
-              <i data-lucide="search" aria-hidden="true"></i>
-              Find My Seat
-            </a>
+            {SHOW_SEATING_FINDER && (
+              <a href="#seating" className="premium-button premium-button-light">
+                <i data-lucide="search" aria-hidden="true"></i>
+                Find My Seat
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -1111,7 +1116,7 @@ function WeddingFooter() {
             <a href="#save-date" className="footer-link">Save the Date</a>
             <a href="#invitation" className="footer-link">Invitation</a>
             <a href="#heritage" className="footer-link">Our Heritage</a>
-            <a href="#seating" className="footer-link">Seating Search</a>
+            {SHOW_SEATING_FINDER && <a href="#seating" className="footer-link">Seating Search</a>}
             <a href="#gallery" className="footer-link">Photo Gallery</a>
             <a href="#rsvp" className="footer-link">Confirm RSVP</a>
           </div>
