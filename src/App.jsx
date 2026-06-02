@@ -904,6 +904,12 @@ function TimelineSection() {
 
 // [REPLACED Section] Displays beautiful 12-image grid editorial collage
 function GallerySection({ images, onOpenLightbox }) {
+  const [loadedImages, setLoadedImages] = useState({});
+
+  const handleImageLoad = (index) => {
+    setLoadedImages((prev) => ({ ...prev, [index]: true }));
+  };
+
   return (
     <section className="section gallery-section" id="gallery" aria-labelledby="galleryTitle">
       <div className="section-inner">
@@ -927,7 +933,13 @@ function GallerySection({ images, onOpenLightbox }) {
               aria-label={`View full-screen wedding photo ${index + 1}`}
             >
               <div className="gallery-media-frame">
-                <img src={image.src} alt={image.alt} loading="lazy" />
+                <img 
+                  src={image.src} 
+                  alt={image.alt} 
+                  loading="lazy" 
+                  onLoad={() => handleImageLoad(index)}
+                  className={`gallery-img ${loadedImages[index] ? 'is-loaded' : ''}`}
+                />
                 <div className="gallery-media-overlay">
                   <i data-lucide="zoom-in" aria-hidden="true"></i>
                 </div>
