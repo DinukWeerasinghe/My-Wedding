@@ -5,5 +5,5 @@ export const RSVP_ENDPOINT =
 // To add music, place your MP3 file in public/music/ folder
 // Then uncomment and set the path below:
 // export const MUSIC_SOURCE = "/music/wedding-background.mp3";
-export const MUSIC_SOURCE = "";
+export const MUSIC_SOURCE = "/music/wedding-background.mp3";
 
