@@ -11,14 +11,18 @@ async function main() {
   }
 
   const files = fs.readdirSync(imagesDir);
-  const pngFiles = files.filter(file => file.toLowerCase().endsWith('.png'));
+  const targetExtensions = ['.png', '.jpg', '.jpeg'];
+  const sourceFiles = files.filter(file => {
+    const ext = path.extname(file).toLowerCase();
+    return targetExtensions.includes(ext);
+  });
 
-  console.log(`Found ${pngFiles.length} PNG images to convert...`);
+  console.log(`Found ${sourceFiles.length} images to convert (${targetExtensions.join(', ')})...`);
 
   let totalSizeBefore = 0;
   let totalSizeAfter = 0;
 
-  for (const file of pngFiles) {
+  for (const file of sourceFiles) {
     const inputPath = path.join(imagesDir, file);
     const outputName = file.substring(0, file.lastIndexOf('.')) + '.webp';
     const outputPath = path.join(imagesDir, outputName);

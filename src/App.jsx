@@ -16,18 +16,18 @@ const weddingDetails = {
 
 // 12 Real Wedding Images from the couple's assets
 const galleryImages = [
-  { src: "/images/photo10.c881da68d3cf7b9dab07.webp", alt: "Dinuka & Nimasha - Elegant Pose" },
-  { src: "/images/photo11.7892a6d8745a7c02f7d6.webp", alt: "Dinuka & Nimasha - Joyful Walk" },
-  { src: "/images/photo12.8c94156b0a6c2297a62b.webp", alt: "Dinuka & Nimasha - Ring Exchange" },
-  { src: "/images/photo1.65cd987bc86654a16c94.webp", alt: "Dinuka & Nimasha - Studio Portrait" },
-  { src: "/images/photo2.3d6a2a329b03b079fb95.webp", alt: "Dinuka & Nimasha - Candid Smile" },
-  { src: "/images/photo3.090eae98f27e86000181.webp", alt: "Dinuka & Nimasha - Soft Gaze" },
-  { src: "/images/photo4.79ad4c593c7971828169.webp", alt: "Dinuka & Nimasha - Gentle Hug" },
-  { src: "/images/photo5.bb2925991ed5b526170e.webp", alt: "Dinuka & Nimasha - Outdoor Romance" },
-  { src: "/images/photo6.a68d48b383b9499d6188.webp", alt: "Dinuka & Nimasha - Sunset Love" },
-  { src: "/images/photo7.eaf26b9868f5fa3e5e54.webp", alt: "Dinuka & Nimasha - Traditional Gown" },
-  { src: "/images/photo8.93dfdec8d7f9131146fd.webp", alt: "Dinuka & Nimasha - Groom Portrait" },
-  { src: "/images/photo9.19ca8d36b05343bc5902.webp", alt: "Dinuka & Nimasha - Bride Portrait" },
+  { src: "/images/photo10.webp", alt: "Dinuka & Nimasha - Elegant Pose" },
+  { src: "/images/photo11.webp", alt: "Dinuka & Nimasha - Joyful Walk" },
+  { src: "/images/photo12.webp", alt: "Dinuka & Nimasha - Ring Exchange" },
+  { src: "/images/photo1.webp", alt: "Dinuka & Nimasha - Studio Portrait" },
+  { src: "/images/photo2.webp", alt: "Dinuka & Nimasha - Candid Smile" },
+  { src: "/images/photo3.webp", alt: "Dinuka & Nimasha - Soft Gaze" },
+  { src: "/images/photo4.webp", alt: "Dinuka & Nimasha - Gentle Hug" },
+  { src: "/images/photo5.webp", alt: "Dinuka & Nimasha - Outdoor Romance" },
+  { src: "/images/photo6.webp", alt: "Dinuka & Nimasha - Sunset Love" },
+  { src: "/images/photo7.webp", alt: "Dinuka & Nimasha - Traditional Gown" },
+  { src: "/images/photo8.webp", alt: "Dinuka & Nimasha - Groom Portrait" },
+  { src: "/images/photo9.webp", alt: "Dinuka & Nimasha - Bride Portrait" },
 ];
 
 // Preloaded seating data for Table Seating search
@@ -590,7 +590,7 @@ function SaveDateSection({ videoRef, videoFallback, onVideoError }) {
               loop
               playsInline
               preload="metadata"
-              poster="/images/home_photo.c881da68d3cf7b9dab07.webp"
+              poster="/images/home_photo.webp"
               onError={onVideoError}
             >
               <source src={saveDateVideoUrl} type="video/mp4" />
@@ -598,7 +598,7 @@ function SaveDateSection({ videoRef, videoFallback, onVideoError }) {
 
             <img
               className="video-fallback"
-              src="/images/home_photo.c881da68d3cf7b9dab07.webp"
+              src="/images/home_photo.webp"
               alt="Dinuka and Nimasha Portrait Fallback"
               loading="lazy"
             />
@@ -629,7 +629,7 @@ function HeroSection({ heroBackdropRef, guestName }) {
         <div className="photo-wrap reveal">
           <div className="photo-bloom"></div>
           <img
-            src="/images/home_photo.c881da68d3cf7b9dab07.webp"
+            src="/images/home_photo.webp"
             alt="Dinuka & Nimasha Wedding Portrait"
             loading="lazy"
           />
@@ -941,7 +941,7 @@ function PersonalNoteSection() {
       <div className="section-inner note-grid reveal">
         <div className="note-image-wrap">
           <img
-            src="/images/rsvp.7892a6d8745a7c02f7d6.webp"
+            src="/images/rsvp.webp"
             alt="Dinuka and Nimasha Candid Smile Portrait"
             className="note-portrait-img"
             loading="lazy"
