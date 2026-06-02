@@ -1,5 +1,5 @@
 export const RSVP_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbxOiX3-sB99eId3970TmARgEc-NfQ9FyDINBt9n18NNYJAc5-93TNmZnwwPimtnbtPXjQ/exec";
+  "https://script.google.com/macros/s/AKfycbwHUkgK8D21mKwTpqx3e7LbwvV1ibX5jUak2ncFB_SdpXDNjZvc62a9gymsYDS5Wk7IvA/exec";
 
 // BACKGROUND MUSIC:
 // To add music, place your MP3 file in public/music/ folder
