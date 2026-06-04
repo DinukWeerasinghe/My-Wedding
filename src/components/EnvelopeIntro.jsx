@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import "./EnvelopeIntro.css";
-// 1. Import your downloaded seal image here (e.g., place it in your src/assets folder)
 import actualSealImg from "/public/wax-seal.png";
 
 export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
@@ -21,9 +20,10 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
     if (opening) return;
     setOpening(true);
 
+    // Give animation timeline ample time to extend smoothly before going to the home invitation page
     setTimeout(() => {
       onEnter();
-    }, 2400);
+    }, 2500);
   };
 
   return (
@@ -44,6 +44,7 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
         <source src={videoUrl} type="video/mp4" />
       </video>
 
+      {/* The isolated center circular blur vignette container */}
       <div className="intro-overlay" aria-hidden="true"></div>
 
       <div className="intro-copy">
@@ -87,10 +88,10 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
           <div className="envelope-front envelope-front-right"></div>
           <div className="envelope-front envelope-front-bottom"></div>
 
-          {/* Flap is now empty, letting it rotate cleanly */}
+          {/* Clean rotating background flap layer */}
           <div className="envelope-flap"></div>
 
-          {/* MOVED OUTSIDE: Seal is now on the top layer of the envelope structure */}
+          {/* Securely configured on top of the front geometric flaps */}
           <div className="seal-text">
             <img src={actualSealImg} alt="Wax Seal" className="actual-seal-image" />
           </div>

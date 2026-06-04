@@ -1,4 +1,4 @@
-/* Envelope Intro Main Layer */
+/* --- GLOBAL STRUCTURE & LAYOUT CORES --- */
 .intro-envelope {
   position: fixed;
   inset: 0;
@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  /* Aligns content from top to guarantee spacing */
+  justify-content: space-between;
+  /* Spreads layout perfectly across tall mobile viewports */
   min-height: 100svh;
-  padding: clamp(40px, 6svh, 80px) 18px;
-  /* Added more top padding */
+  /* Balanced top/bottom padding to give structural breathability */
+  padding: clamp(40px, 8svh, 80px) 20px clamp(30px, 5svh, 50px);
   overflow: hidden;
   background: radial-gradient(circle, #f7f6f5 0%, #dad1cf 100%);
   transition: opacity 1000ms ease, visibility 1000ms ease;
@@ -21,7 +21,7 @@
   opacity: 0;
 }
 
-/* Background video - Completely clear on edges */
+/* Clear background video config */
 .envelope-bg-video {
   position: absolute;
   inset: 0;
@@ -29,128 +29,115 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  opacity: 0.85;
-  /* Increased opacity so the video is clearly visible */
+  opacity: 0.9;
+  /* Kept vivid so floral visual edges remain gorgeous */
 }
 
-/* Localized Middle-Only Vignette & Blur Box */
+/* --- THE PERFECT CIRCULAR VIGNETTE OVERLAY --- */
 .intro-overlay {
   position: absolute;
   inset: 0;
-  /* Let it fill the viewport area safely */
   z-index: 1;
 
-  /* High-end circular vignette gradient that fades out into transparency */
-  background: radial-gradient(circle at center,
-      rgba(30, 24, 22, 0.65) 0%,
-      /* Adjusted center opacity */
-      rgba(25, 20, 18, 0.45) 45%,
-      /* Softer midtone transition */
-      transparent 70%
-      /* Fully clear edges to see your crisp video */
+  /* Continuous luxury radial masking that pops copy text while keeping video outer borders crisp */
+  background: radial-gradient(circle at 50% 45%,
+      rgba(25, 20, 18, 0.6) 0%,
+      /* Dark center focus point */
+      rgba(25, 20, 18, 0.4) 35%,
+      /* Soft gradient transition */
+      rgba(25, 20, 18, 0.15) 60%,
+      /* Delicate ambient bleed */
+      transparent 80%
+      /* 100% crystal clear edges */
     );
 
-  /* Soft center blur effect */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   pointer-events: none;
 
-  /* This masks the blur strictly inside a central circle shape instead of a square box */
-  mask-image: radial-gradient(circle at center, black 35%, transparent 70%);
-  -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 70%);
+  /* Forces the backdrop blur to strictly render as a smooth center circle instead of a hard box shape */
+  mask-image: radial-gradient(circle at 50% 45%, black 25%, rgba(0, 0, 0, 0.6) 50%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 50% 45%, black 25%, rgba(0, 0, 0, 0.6) 50%, transparent 75%);
 }
 
-/* Top/Bottom borders for framing - Fixed into position */
+/* Subtle accent design framework guidelines */
 .intro-envelope::before,
 .intro-envelope::after {
   content: "";
   position: absolute;
   left: 50%;
-  width: min(760px, 92vw);
+  width: min(760px, 90vw);
   height: 1px;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, transparent, rgba(230, 198, 112, 0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(230, 198, 112, 0.4), transparent);
   z-index: 2;
 }
 
 .intro-envelope::before {
-  top: 40px;
+  top: 30px;
 }
 
 .intro-envelope::after {
-  bottom: 40px;
+  bottom: 30px;
 }
 
-/* Header Text Content Layout */
+/* --- TYPOGRAPHY AND HIGH CONTRAST TEXTS --- */
 .intro-copy {
   position: relative;
   z-index: 2;
-  max-width: min(920px, 92vw);
-  flex: 0 0 auto;
+  max-width: min(520px, 92vw);
   text-align: center;
-  margin-bottom: 20px;
-  /* Separates text block from the envelope space */
+  margin-top: 10px;
   animation: introTextIn 1400ms cubic-bezier(0.16, 1, 0.3, 1) both 400ms;
 }
 
 .guest-name {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: #e6c676;
   text-transform: uppercase;
-  letter-spacing: .25em;
-  font-size: .9rem;
+  letter-spacing: .2em;
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
   font-weight: 600;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
-}
-
-.intro-copy .eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: #f5ece1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-  font-size: 0.9rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
 }
 
 .couple-name {
-  margin: 1px 0;
-  color: #fffaf2;
-  font-size: clamp(3.2rem, 8vw, 5.5rem);
-  line-height: 1;
+  margin: 4px 0 14px;
+  color: #ffffff;
+  font-size: clamp(2.8rem, 8vw, 4.8rem);
+  line-height: 1.05;
   font-weight: 400;
+  /* Deep layered high-fidelity drop shadows to cleanly separate text from bright video spots */
   text-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.8),
-    0 0 40px rgba(230, 198, 118, 0.3);
+    0 2px 10px rgba(0, 0, 0, 0.65),
+    0 4px 25px rgba(0, 0, 0, 0.45),
+    0 0 35px rgba(230, 198, 118, 0.3);
   text-wrap: balance;
 }
 
 .ampersand {
   color: #e6c676;
-  margin: 0 .25em;
+  margin: 0 .2em;
   font-style: italic;
 }
 
 .invitation-copy {
-  margin-top: 14px;
   color: rgba(255, 255, 255, 0.95);
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
   letter-spacing: .05em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
 }
 
-/* Envelope Container & 3D Stage Space */
+/* --- THE 3D ANIMATED ENVELOPE STAGE --- */
 .envelope-stage {
   position: relative;
   z-index: 2;
-  flex: 0 0 auto;
-  width: min(400px, 85vw);
-  height: 260px;
-  /* Pushes envelope lower down the layout so the reveal doesn't crash into headers */
-  margin-top: clamp(40px, 8svh, 120px);
+  width: min(350px, 85vw);
+  /* Responsive optimized sizing footprint */
+  height: 230px;
+  margin: auto 0;
+  /* Auto-centering mechanics inside the flexbox column area */
   perspective: 1500px;
   cursor: pointer;
 }
@@ -161,40 +148,42 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 12px;
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
-  animation: envelopeFloat 4000ms ease-in-out infinite;
+  /* Clips out the sharp inner edge triangle leakage */
+  border-radius: 14px;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.3));
+  animation: envelopeFloat 4500ms ease-in-out infinite;
   transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .envelope-stage:hover .envelope {
-  transform: translateY(-8px) scale(1.02);
-  filter: drop-shadow(0 30px 45px rgba(0, 0, 0, 0.5));
+  transform: translateY(-4px) scale(1.015);
 }
 
-/* Envelope Body Construction */
+/* Base structural back panel of the envelope */
 .envelope-back {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(230, 198, 118, 0.35);
-  border-radius: 8px;
+  border: 1px solid rgba(230, 198, 118, 0.25);
+  border-radius: 14px;
   background: linear-gradient(145deg, #fffbf5, #fbeeec);
 }
 
+/* The Secret Invitation Card inside */
 .envelope-card {
   position: absolute;
   left: 50%;
   bottom: 0;
   z-index: 2;
   width: 92%;
-  height: 190px;
-  padding: 24px 16px;
-  border: 1px solid rgba(230, 198, 118, 0.35);
+  height: 180px;
+  padding: 22px 14px;
+  border: 1px solid rgba(230, 198, 118, 0.3);
   border-radius: 8px;
   transform: translateX(-50%) translateY(100%);
+  /* Perfect hidden state setup */
   background: #ffffff;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.15);
   opacity: 0;
   transition: transform 1200ms cubic-bezier(0.34, 1.3, 0.64, 1), opacity 600ms ease;
 }
@@ -202,17 +191,17 @@
 .envelope-card span {
   display: block;
   color: #c89a2f;
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .envelope-card strong {
   display: block;
-  margin: 12px 0 6px;
+  margin: 10px 0 4px;
   color: #1a1a1a;
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -220,16 +209,16 @@
 .envelope-card em {
   color: #666666;
   font-style: normal;
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
 }
 
-/* Front overlapping Flaps using clip-paths */
+/* Front structural geometric triangle layout overlaps */
 .envelope-front {
   position: absolute;
   inset: 0;
   z-index: 3;
-  border-radius: 8px;
+  border-radius: 14px;
   background: linear-gradient(155deg, #fffbf7, #f6dad7);
 }
 
@@ -247,10 +236,10 @@
 .envelope-front-bottom {
   clip-path: polygon(0 100%, 50% 45%, 100% 100%);
   background: linear-gradient(180deg, #fffbf7, #eccac6);
-  border-bottom: 1px solid rgba(230, 198, 118, 0.2);
+  border-bottom: 1px solid rgba(230, 198, 118, 0.15);
 }
 
-/* Interactive Envelope Top Flap */
+/* Flap element */
 .envelope-flap {
   position: absolute;
   inset: 0;
@@ -259,99 +248,77 @@
   transform-origin: top center;
   clip-path: polygon(0 0, 50% 100%, 100% 0);
   background: linear-gradient(180deg, #fce2df, #fffbf5);
-  border-radius: 8px 8px 0 0;
-  box-shadow: inset 0 -1px 0 rgba(230, 198, 118, 0.3);
+  border-radius: 14px 14px 0 0;
+  box-shadow: inset 0 -1px 0 rgba(230, 198, 118, 0.2);
   transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1), z-index 0s linear 400ms;
 }
 
-/* Wax Seal Button */
+/* Actual Image Wax Seal Placement Settings */
 .seal-text {
   position: absolute;
   left: 50%;
-  top: 52%;
-  width: 76px;
-  height: 76px;
+  top: 50%;
+  width: 72px;
+  /* Balanced scale on mobile/desktop frames */
+  height: 72px;
   transform: translate(-50%, -50%);
   z-index: 10;
+  /* Keeps it layered firmly over all front triangle pieces */
   display: grid;
   place-items: center;
   background: transparent;
   transition: transform 900ms cubic-bezier(0.4, 0, 0.2, 1), top 900ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* New styles specifically for your downloaded image seal */
 .actual-seal-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.35));
 }
 
-/* Subtle extra pop when hovering over the active envelope stage */
 .envelope-stage:hover .seal-text {
-  transform: translate(-50%, -50%) scale(1.06);
+  transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* UI Informational Triggers */
+/* Bottom Hint Label */
 .tap-hint {
   position: relative;
   z-index: 3;
-  margin-top: 20px;
-  color: #fff;
+  margin-top: 10px;
+  color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: .15em;
-  font-size: .8rem;
+  letter-spacing: .12em;
+  font-size: .75rem;
   font-weight: 600;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-  animation: pulseHint 2s infinite;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  animation: pulseHint 2.5s infinite;
 }
 
-.skip-intro {
-  position: relative;
-  z-index: 3;
-  margin-top: 20px;
-  padding: 12px 24px;
-  border: 1px solid rgba(230, 198, 112, 0.4);
-  border-radius: 30px;
-  color: #1a1a1a;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  transition: transform 250ms ease, background-color 250ms ease;
-}
-
-.skip-intro:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.95);
-}
-
+/* --- THE ACTIVE OPENING TRANSITION SYSTEM --- */
 .is-opening .envelope {
   overflow: visible;
+  /* Allows the card element to pop outside the borders smoothly */
 }
 
-/* OPENING STATE ACTIVATION CLASSES (Managed via React State) */
 .is-opening .envelope-flap {
   transform: rotateX(180deg);
   z-index: 1;
-  /* Pushes the flap background layer back behind the letter */
 }
 
+/* Pull-out elevation height calibrated perfectly below the couple names line */
 .is-opening .envelope-card {
   opacity: 1;
-  transform: translateX(-50%) translateY(-105px);
-  /* Changed from -150px to prevent overlapping names */
+  transform: translateX(-50%) translateY(-95px);
 }
 
+/* Moves the physical seal smoothly up to settle beautifully at the upper apex tip */
 .is-opening .seal-text {
-  top: -16%;
+  top: -15%;
   transform: translate(-50%, -50%) scale(0.85);
 }
 
-.is-opening .tap-hint,
-.is-opening .skip-intro {
+.is-opening .tap-hint {
   animation: fadeOut 600ms ease forwards;
 }
 
@@ -360,11 +327,11 @@
   opacity: 0.95;
 }
 
-/* Animation Timings & Keyframe Definitions */
+/* Keyframes Engine */
 @keyframes introTextIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(12px);
   }
 
   to {
@@ -381,19 +348,7 @@
   }
 
   50% {
-    transform: translateY(-6px);
-  }
-}
-
-@keyframes sealGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-  }
-
-  50% {
-    box-shadow: 0 0 22px rgba(212, 175, 55, 0.6);
+    transform: translateY(-5px);
   }
 }
 
@@ -401,7 +356,7 @@
 
   0%,
   100% {
-    opacity: .5;
+    opacity: .55;
   }
 
   50% {
@@ -412,7 +367,7 @@
 @keyframes fadeOut {
   to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(6px);
     pointer-events: none;
   }
 }
