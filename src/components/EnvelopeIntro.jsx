@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "./EnvelopeIntro.css";
+// 1. Import your downloaded seal image here (e.g., place it in your src/assets folder)
+import actualSealImg from "/public/wax-seal.png";
 
 export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
   const videoRef = useRef(null);
   const [opening, setOpening] = useState(false);
 
-  const guestName =
-    new URLSearchParams(window.location.search).get("name");
+  const guestName = new URLSearchParams(window.location.search).get("name");
 
   useEffect(() => {
     if (hidden) {
@@ -18,18 +19,16 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
 
   const handleOpen = () => {
     if (opening) return;
-
     setOpening(true);
 
     setTimeout(() => {
       onEnter();
-    }, 2200);
+    }, 2400);
   };
 
   return (
     <section
-      className={`intro-envelope ${hidden ? "is-hidden" : ""
-        } ${opening ? "is-opening" : ""}`}
+      className={`intro-envelope ${hidden ? "is-hidden" : ""} ${opening ? "is-opening" : ""}`}
       id="introEnvelope"
       aria-label="Wedding Invitation"
     >
@@ -44,9 +43,8 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
       >
         <source src={videoUrl} type="video/mp4" />
       </video>
+
       <div className="intro-overlay" aria-hidden="true"></div>
-
-
 
       <div className="intro-copy">
         {guestName && (
@@ -55,20 +53,12 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
           </div>
         )}
 
-        <span className="eyebrow">
-          Together with their families
-        </span>
-
         <h1 className="couple-name">
-          Dinuka
-          <span className="ampersand">&</span>
-          Nimasha
+          Dinuka <span className="ampersand">&</span> Nimasha
         </h1>
 
         <p className="invitation-copy">
-          Request the pleasure of your company
-          <br />
-          at our wedding celebration
+          Request the pleasure of your company<br />at our wedding celebration
         </p>
       </div>
 
@@ -89,11 +79,7 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
 
           <div className="envelope-card">
             <span>Save the Date</span>
-
-            <strong>
-              Dinuka &amp; Nimasha
-            </strong>
-
+            <strong>Dinuka &amp; Nimasha</strong>
             <em>26 August 2026</em>
           </div>
 
@@ -101,43 +87,17 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
           <div className="envelope-front envelope-front-right"></div>
           <div className="envelope-front envelope-front-bottom"></div>
 
-          <div className="envelope-flap">
-            <div className="seal-text">
-              D&amp;N
-            </div>
+          {/* Flap is now empty, letting it rotate cleanly */}
+          <div className="envelope-flap"></div>
+
+          {/* MOVED OUTSIDE: Seal is now on the top layer of the envelope structure */}
+          <div className="seal-text">
+            <img src={actualSealImg} alt="Wax Seal" className="actual-seal-image" />
           </div>
-
-          <div className="envelope-line envelope-line-one"></div>
-          <div className="envelope-line envelope-line-two"></div>
-        </div>
-
-        <div
-          className="envelope-sparkles"
-          aria-hidden="true"
-        >
-          {Array.from({ length: 12 }).map((_, i) => (
-            <span
-              key={`sparkle-${i}`}
-              className="envelope-sparkle"
-              style={{
-                "--sparkle-index": i,
-              }}
-            />
-          ))}
         </div>
       </div>
 
-      <div className="tap-hint">
-        Tap the seal to open ✨
-      </div>
-
-      <button
-        className="skip-intro"
-        type="button"
-        onClick={handleOpen}
-      >
-        Open Invitation
-      </button>
+      <div className="tap-hint">Tap the seal to open ✨</div>
     </section>
   );
 }
