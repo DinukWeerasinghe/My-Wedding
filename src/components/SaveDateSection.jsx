@@ -1,24 +1,26 @@
 import "./SaveDateSection.css";
 
-export function SaveDateSection({ videoRef, videoFallback, onVideoError, videoUrl }) {
+export function SaveDateSection({ videoRef, videoFallback, onVideoError, videoUrl, introClosed }) {
   return (
     <section className="section save-date-section" id="save-date" aria-labelledby="saveDateTitle">
       <div className="section-inner save-date-inner">
         <div className="video-shell reveal">
           <div className={`video-frame ${videoFallback ? "has-fallback" : ""}`}>
-            <video
-              ref={videoRef}
-              className="save-date-video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="/images/home_photo.webp"
-              onError={onVideoError}
-            >
-              <source src={videoUrl} type="video/mp4" />
-            </video>
+            {introClosed && (
+              <video
+                ref={videoRef}
+                className="save-date-video"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/images/home_photo.webp"
+                onError={onVideoError}
+              >
+                <source src={videoUrl} type="video/mp4" />
+              </video>
+            )}
 
             <img
               className="video-fallback"

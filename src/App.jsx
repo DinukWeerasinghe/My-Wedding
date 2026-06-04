@@ -24,6 +24,7 @@ import { WeddingFooter } from "./components/WeddingFooter.jsx";
 
 const weddingDate = new Date("2026-08-26T09:10:00+05:30");
 const saveDateVideoUrl = "/Wedding Save the Date Video.mp4";
+const introVideo = "/intro.mp4";
 const SHOW_SEATING_FINDER = false; // Toggle to true to display seating finder buttons and lookup forms
 
 // 12 Real Wedding Images from the couple's assets
@@ -428,7 +429,7 @@ function App() {
         ))}
       </div>
 
-      <EnvelopeIntro hidden={introClosed} onEnter={closeIntro} videoUrl={saveDateVideoUrl} />
+      <EnvelopeIntro hidden={introClosed} onEnter={closeIntro} videoUrl={introVideo} />
 
       <main>
         {/* Section 1: Save the Date Video */}
@@ -437,6 +438,7 @@ function App() {
           videoFallback={videoFallback}
           onVideoError={() => setVideoFallback(true)}
           videoUrl={saveDateVideoUrl}
+          introClosed={introClosed}
         />
 
         {/* Section 2: Hero Invitation Card */}
