@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./GallerySection.css";
 
 export function GallerySection({ images, onOpenLightbox }) {
   const [currentIndex, setCurrentIndex] = useState(0);

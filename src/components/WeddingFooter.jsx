@@ -1,3 +1,5 @@
+import "./WeddingFooter.css";
+
 export function WeddingFooter({ showSeatingFinder }) {
   return (
     <footer className="wedding-footer" role="contentinfo">

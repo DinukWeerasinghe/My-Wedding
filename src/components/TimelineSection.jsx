@@ -1,3 +1,5 @@
+import "./TimelineSection.css";
+
 export function TimelineSection() {
   const timelineItems = [
     { num: "01", time: "9:10 AM", title: "Ceremony Begins", desc: "A warm welcome as family and friends gather to celebrate." },

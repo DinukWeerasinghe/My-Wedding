@@ -1,3 +1,5 @@
+import "./LocationSection.css";
+
 export function LocationSection() {
   return (
     <section className="section location-section" id="location" aria-labelledby="locationTitle">

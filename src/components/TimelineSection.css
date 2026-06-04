@@ -1,0 +1,136 @@
+.timeline-section {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 242, 0.96), rgba(255, 254, 253, 0.9)),
+    linear-gradient(135deg, #eadfce, #fffaf2 54%, #f6d8d7);
+}
+
+.agenda-list {
+  display: grid;
+  gap: 24px;
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.agenda-list::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--champagne), transparent);
+}
+
+.agenda-row {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.agenda-time-wrap {
+  text-align: right;
+  padding: 12px;
+}
+
+.agenda-time {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--champagne);
+}
+
+.agenda-center {
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.agenda-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pearl);
+  border: 2px solid var(--champagne);
+  box-shadow: 0 0 10px rgba(200, 168, 106, 0.4);
+  z-index: 2;
+}
+
+.agenda-content {
+  padding: 16px 20px;
+  border: 1px solid rgba(200, 168, 106, 0.28);
+  border-radius: var(--radius);
+  background: rgba(255, 254, 253, 0.74);
+  box-shadow: 0 10px 24px rgba(89, 64, 54, 0.06);
+}
+
+.agenda-meta {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--champagne);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.agenda-label {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.agenda-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--soft-ink);
+}
+
+.agenda-row--reverse .agenda-time-wrap {
+  text-align: left;
+  grid-column: 3;
+}
+
+.agenda-row--reverse .agenda-content {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+@media (max-width: 768px) {
+  .agenda-list::before {
+    left: 20px;
+    transform: none;
+  }
+  
+  .agenda-row {
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+  }
+  
+  .agenda-row--reverse .agenda-time-wrap {
+    grid-column: 2;
+  }
+  
+  .agenda-row--reverse .agenda-content {
+    grid-column: 2;
+    grid-row: auto;
+  }
+  
+  .agenda-time-wrap {
+    text-align: left;
+    padding: 0;
+    grid-column: 2;
+  }
+  
+  .agenda-center {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  
+  .agenda-content {
+    grid-column: 2;
+  }
+}

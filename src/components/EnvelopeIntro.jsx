@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import "./EnvelopeIntro.css";
 
 export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
   const videoRef = useRef(null);

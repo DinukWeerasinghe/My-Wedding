@@ -1,3 +1,5 @@
+import "./HeroSection.css";
+
 export function HeroSection({ heroBackdropRef, guestName, showSeatingFinder }) {
   return (
     <section className="section hero-invitation" id="invitation" aria-labelledby="invitationTitle">

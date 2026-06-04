@@ -1,3 +1,5 @@
+import "./PersonalNoteSection.css";
+
 export function PersonalNoteSection() {
   return (
     <section className="section personal-note-section" id="note" aria-labelledby="noteTitle">

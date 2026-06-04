@@ -1,3 +1,5 @@
+import "./RsvpSection.css";
+
 export function RsvpSection({ onSubmit, submitting }) {
   return (
     <section className="section rsvp-section" id="rsvp" aria-labelledby="rsvpTitle">

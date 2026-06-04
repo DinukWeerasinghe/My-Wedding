@@ -1,3 +1,5 @@
+import "./DetailsSection.css";
+
 const weddingDetails = {
   date: "26 August 2026",
   time: "9:10 AM onwards",

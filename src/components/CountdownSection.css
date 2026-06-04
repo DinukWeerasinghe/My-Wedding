@@ -1,0 +1,192 @@
+.countdown-section {
+  min-height: auto;
+  background:
+    linear-gradient(180deg, rgba(255, 254, 253, 0.9), rgba(246, 216, 215, 0.5)),
+    linear-gradient(135deg, #fffaf2, #f7e5e2 48%, #f1e8d8);
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(200, 168, 106, 0.25);
+  border-bottom: 1px solid rgba(200, 168, 106, 0.25);
+  padding: 24px 0;
+}
+
+.count-card {
+  padding: 18px 8px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+
+.count-card strong {
+  display: block;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.count-card span {
+  display: block;
+  margin-top: 8px;
+  color: var(--champagne);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+
+/* 2. Neomorphic Circular Countdown */
+.cd-neo-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 780px;
+  margin: 40px auto 0;
+  justify-items: center;
+}
+
+.ring-card {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--glass-strong);
+  box-shadow: 
+    8px 8px 16px rgba(89, 64, 54, 0.08), 
+    -8px -8px 16px rgba(255, 255, 255, 0.9);
+  padding: 10px;
+}
+
+.ring-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ring-track {
+  fill: none;
+  stroke: rgba(200, 168, 106, 0.12);
+  stroke-width: 4px;
+}
+
+.ring-bar {
+  fill: none;
+  stroke: var(--champagne);
+  stroke-width: 5px;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.ring-inner {
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+  background: var(--pearl);
+  box-shadow: 
+    inset 4px 4px 8px rgba(89, 64, 54, 0.05), 
+    inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-value {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.ring-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--champagne);
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+
+.ring-card {
+  animation: ringBreath 5200ms ease-in-out infinite;
+}
+
+.ring-card:nth-child(2) {
+  animation-delay: 260ms;
+}
+
+.ring-card:nth-child(3) {
+  animation-delay: 520ms;
+}
+
+.ring-card:nth-child(4) {
+  animation-delay: 780ms;
+}
+
+@media (min-width: 560px) {
+  .countdown-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 420px) {
+  .count-card strong {
+    font-size: 2.25rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+  
+  .cd-neo-row {
+    gap: 16px;
+  }
+  
+  .ring-card {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .ring-inner {
+    inset: 10px;
+  }
+  
+  .ring-value {
+    font-size: 1.5rem;
+  }
+  
+  .ring-label {
+    font-size: 0.55rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .cd-neo-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+@keyframes ringBreath {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}

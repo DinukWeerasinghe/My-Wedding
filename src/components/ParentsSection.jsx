@@ -1,3 +1,5 @@
+import "./ParentsSection.css";
+
 export function ParentsSection() {
   return (
     <section className="section parents-section" id="heritage" aria-labelledby="heritageTitle">

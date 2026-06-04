@@ -1,3 +1,5 @@
+import "./CountdownSection.css";
+
 export function CountdownSection({ countdown }) {
   return (
     <section className="section countdown-section" id="countdown" aria-labelledby="countdownTitle">

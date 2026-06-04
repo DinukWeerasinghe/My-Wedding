@@ -1,3 +1,5 @@
+import "./SeatingSection.css";
+
 export function SeatingSection({ seatingQuery, setSeatingQuery, seatingResult, searchedName, onSearch, onClear }) {
   return (
     <section className="section seating-section" id="seating" aria-labelledby="seatingTitle">

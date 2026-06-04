@@ -1,0 +1,111 @@
+/* 1. Parents Section & Family Heritage */
+.parents-section {
+  min-height: auto;
+  padding: 60px 18px;
+  background: 
+    linear-gradient(180deg, rgba(255, 250, 242, 0.9), rgba(255, 254, 253, 0.95)),
+    linear-gradient(135deg, #eadfce, #f6d8d7 50%, #fffaf2);
+}
+
+.parents-card {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  border: 1px solid rgba(200, 168, 106, 0.44);
+  border-radius: var(--radius);
+  background: rgba(255, 254, 253, 0.76);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+  text-align: center;
+}
+
+.parents-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 32px 0;
+}
+
+.parents-side {
+  padding: 12px;
+}
+
+.family-role {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--champagne);
+  margin-bottom: 8px;
+}
+
+.parents-side h3 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.parents-side p {
+  font-size: 0.95rem;
+  color: var(--mauve-gray);
+  margin: 0;
+}
+
+.parents-amp {
+  font-family: var(--font-script);
+  font-size: 3.5rem;
+  color: var(--accent-script);
+  line-height: 1;
+}
+
+.parents-note {
+  font-size: 1.05rem;
+  color: var(--soft-ink);
+  font-style: italic;
+  max-width: 600px;
+  margin: 24px auto 0;
+  border-top: 1px solid rgba(200, 168, 106, 0.22);
+  padding-top: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .parents-grid {
+    gap: 12px;
+  }
+  
+  .parents-amp {
+    font-size: 2.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .parents-grid {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 32px;
+  }
+  
+}
+
+
+.parents-card {
+  position: relative;
+}
+.parents-card::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(217, 143, 149, 0.16);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease, inset 400ms ease;
+}
+.parents-card:hover::after {
+  inset: 7px;
+  opacity: 1;
+}
