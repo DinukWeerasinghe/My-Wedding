@@ -1,6 +1,6 @@
 import "./SaveDateSection.css";
 
-export function SaveDateSection({ videoRef, videoFallback, onVideoError, videoUrl, introClosed }) {
+export function SaveDateSection({ videoRef, videoFallback, onVideoError, videoUrl, introClosed, isMobile }) {
   return (
     <section className="section save-date-section" id="save-date" aria-labelledby="saveDateTitle">
       <div className="section-inner save-date-inner">
@@ -14,7 +14,7 @@ export function SaveDateSection({ videoRef, videoFallback, onVideoError, videoUr
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload={isMobile ? "none" : "metadata"}
                 poster="/images/home_photo.webp"
                 onError={onVideoError}
               >
@@ -30,6 +30,8 @@ export function SaveDateSection({ videoRef, videoFallback, onVideoError, videoUr
             />
 
             <div className="video-overlay" aria-hidden="true"></div>
+
+            {/* Text is now anchored to the TOP of the video */}
             <div className="save-date-text">
               <p id="saveDateTitle">Save the Date</p>
               <h2>Dinuka &amp; Nimasha</h2>

@@ -64,9 +64,33 @@ export function RsvpSection({ onSubmit, submitting }) {
             </div>
           </fieldset>
 
+          {/* 🥂 Beverage Preference */}
+          <fieldset>
+            <legend>
+              <span className="legend-icon">🥂</span> Beverage Preference
+            </legend>
+            <p className="fieldset-hint">Will you be enjoying liquor at the reception?</p>
+            <div className="beverage-options">
+              <label className="beverage-label">
+                <input type="radio" name="liquor" value="Yes, liquor" defaultChecked />
+                <span className="beverage-chip">
+                  <span className="beverage-emoji">🍾</span>
+                  Yes, I'll have liquor
+                </span>
+              </label>
+              <label className="beverage-label">
+                <input type="radio" name="liquor" value="No, soft drinks only" />
+                <span className="beverage-chip">
+                  <span className="beverage-emoji">🥤</span>
+                  Soft drinks only
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
           <label>
             <span>Message</span>
-            <textarea name="message" rows="5" placeholder="Leave a loving note for the couple..."></textarea>
+            <textarea name="message" rows="4" placeholder="Leave a loving note for the couple..."></textarea>
           </label>
 
           <button className="submit-button" type="submit" disabled={submitting}>

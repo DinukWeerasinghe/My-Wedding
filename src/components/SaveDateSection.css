@@ -71,17 +71,23 @@
   display: block;
 }
 
+/* Overlay — stronger at TOP so text is readable there */
 .video-overlay {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(61, 47, 48, 0.1), rgba(61, 47, 48, 0.48)),
-    linear-gradient(90deg, rgba(255, 248, 245, 0.28), transparent, rgba(255, 248, 245, 0.18));
+    linear-gradient(180deg,
+      rgba(25, 16, 16, 0.68) 0%,
+      rgba(25, 16, 16, 0.30) 35%,
+      rgba(25, 16, 16, 0.08) 65%,
+      rgba(25, 16, 16, 0.22) 100%
+    );
 }
 
+/* Text anchored to TOP of the video frame */
 .save-date-text {
   position: absolute;
-  inset: auto 20px 34px;
+  inset: 28px 20px auto;        /* top-anchored */
   z-index: 1;
   text-align: center;
   color: var(--pearl);
@@ -89,23 +95,31 @@
 }
 
 .save-date-text p {
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   color: var(--champagne-soft);
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .save-date-text h2 {
   margin-bottom: 6px;
   color: var(--pearl);
   font-size: clamp(2.4rem, 10vw, 4.3rem);
-  text-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .save-date-text span {
-  color: var(--pearl);
+  display: inline-block;
+  padding: 4px 14px;
+  border: 1px solid rgba(201, 160, 96, 0.55);
+  border-radius: 40px;
+  color: var(--champagne-soft);
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .scroll-indicator {
@@ -126,24 +140,14 @@
   height: 18px;
 }
 
-
 @keyframes softZoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.035);
-  }
+  from { transform: scale(1); }
+  to   { transform: scale(1.025); }
 }
 
 @keyframes scrollPulse {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
 }
 
 @media (min-width: 560px) {
@@ -152,15 +156,20 @@
   }
 
   .save-date-text {
-    inset: auto 28px 42px;
+    inset: 36px 36px auto;
+  }
+
+  .save-date-text p {
+    font-size: 1.4rem;
   }
 
   .save-date-text h2 {
-    font-size: 5.5rem;
+    font-size: clamp(3rem, 8vw, 5.5rem);
   }
-
 }
 
-.save-date-text h2 {
-  text-shadow: 0 10px 30px rgba(184, 107, 114, 0.13);
+@media (min-width: 860px) {
+  .save-date-text {
+    inset: 44px 48px auto;
+  }
 }

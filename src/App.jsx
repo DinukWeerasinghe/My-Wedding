@@ -319,6 +319,7 @@ function App() {
       phone: formData.get("phone"),
       guests: formData.get("guests"),
       attendance: formData.get("attendance"),
+      liquor: formData.get("liquor") || "Not specified",
       message: formData.get("message"),
       submittedAt: new Date().toISOString(),
       pageUrl: window.location.href,
@@ -439,6 +440,7 @@ function App() {
           onVideoError={() => setVideoFallback(true)}
           videoUrl={saveDateVideoUrl}
           introClosed={introClosed}
+          isMobile={isMobile}
         />
 
         {/* Section 2: Hero Invitation Card */}

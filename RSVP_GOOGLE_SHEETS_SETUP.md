@@ -34,6 +34,7 @@ function doPost(e) {
       data.name || "",
       data.guests || "",
       data.attendance || "",
+      data.liquor || "",        // NEW: Liquor / Beverage Preference
       data.message || "",
       data.submittedAt || "",
       data.pageUrl || "",
@@ -61,6 +62,7 @@ function ensureHeaderRow(sheet) {
     "Name",
     "Number of Guests",
     "Attendance",
+    "Liquor Preference",        // NEW column
     "Message",
     "Submitted At",
     "Page URL",
@@ -83,6 +85,8 @@ function ensureHeaderRow(sheet) {
 https://script.google.com/macros/s/
 ```
 
+> **⚠️ Already deployed?** If you previously deployed the script, you must create a **New Deployment** (not re-deploy the old version) for the column changes to take effect. The old submissions won't have a Liquor Preference column, so you can manually add the header to your existing sheet.
+
 ## 4. Connect This Website
 
 Open `src/config.js` and paste your Web App URL here:
@@ -91,4 +95,7 @@ Open `src/config.js` and paste your Web App URL here:
 const RSVP_ENDPOINT = "PASTE_YOUR_WEB_APP_URL_HERE";
 ```
 
-After hosting the website, submit one test RSVP and check the Google Sheet. Each guest RSVP will appear as a new row, so your RSVP report is the Sheet itself.
+After hosting the website, submit one test RSVP and check the Google Sheet. Each guest RSVP will appear as a new row with columns:
+
+| Received At | Event | Name | Guests | Attendance | **Liquor Preference** | Message | Submitted At | Page URL | Phone |
+|---|---|---|---|---|---|---|---|---|---|
