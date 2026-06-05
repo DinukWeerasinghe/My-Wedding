@@ -20,7 +20,6 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
     if (opening) return;
     setOpening(true);
 
-    // Give animation timeline ample time to extend smoothly before going to the home invitation page
     setTimeout(() => {
       onEnter();
     }, 2500);
@@ -44,9 +43,8 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
         <source src={videoUrl} type="video/mp4" />
       </video>
 
+      <div className="intro-overlay" aria-hidden="true" />
 
-
-      {/* Floating Sparkles/Particles */}
       <div className="intro-sparkles" aria-hidden="true">
         <span className="intro-sparkle"></span>
         <span className="intro-sparkle"></span>
@@ -58,11 +56,7 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
         <span className="intro-sparkle"></span>
       </div>
 
-      {/* Transparent Floral Corners Frame */}
-
-
       <div className="intro-content">
-        {/* Top Gold Flourish */}
         <div className="decor-container" aria-hidden="true">
           <svg className="gold-decor-line" viewBox="0 0 300 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -103,7 +97,6 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
           </p>
         </div>
 
-        {/* Bottom Gold Flourish */}
         <div className="decor-container" aria-hidden="true">
           <svg className="gold-decor-line" viewBox="0 0 300 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M 10 10 L 135 10" stroke="url(#gold-gradient-decor)" strokeWidth="0.8" opacity="0.8" />
@@ -120,6 +113,7 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
         onClick={handleOpen}
         role="button"
         tabIndex="0"
+        aria-label="Open wedding invitation envelope"
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -128,7 +122,9 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
         }}
       >
         <div className="envelope">
-          <div className="envelope-back"></div>
+          <div className="envelope-back">
+            <div className="envelope-paper-texture" aria-hidden="true" />
+          </div>
 
           <div className="envelope-card">
             <span>Save the Date</span>
@@ -136,22 +132,28 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
             <em>26 August 2026</em>
           </div>
 
-          <div className="envelope-front envelope-front-left"></div>
-          <div className="envelope-front envelope-front-right"></div>
-          <div className="envelope-front envelope-front-bottom"></div>
+          <div className="envelope-front envelope-front-left" />
+          <div className="envelope-front envelope-front-right" />
+          <div className="envelope-front envelope-front-bottom">
+            <div className="envelope-fold-crease" aria-hidden="true" />
+          </div>
 
-          {/* Clean rotating background flap layer */}
-          <div className="envelope-flap"></div>
+          <div className="envelope-flap">
+            <div className="envelope-flap-crease" aria-hidden="true" />
+          </div>
 
-          {/* Securely configured on top of the front geometric flaps */}
-          <div className="seal-text">
-            <img src={actualSealImg} alt="Wax Seal" className="actual-seal-image" />
+          {/* Seal sits at the flap closure — outside flap overflow, anchored to seam */}
+          <div className="seal-anchor" aria-hidden="true">
+            <div className="seal-pulse-ring" />
+            <div className="seal-ground-shadow" />
+            <div className="seal-body">
+              <img src={actualSealImg} alt="" className="actual-seal-image" draggable="false" />
+            </div>
           </div>
         </div>
       </div>
 
       <div className="interactive-controls">
-        {/* Tap Hint with Leaves */}
         <div className="tap-hint">
           <svg className="leaf-sprig left-sprig" viewBox="0 0 24 24" fill="none" stroke="#ead8b8" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M3 21C8 20 15 15 17 10M17 10C18.5 8 20 5 21 3M17 10C15.5 11.5 13 12 11 12.5M14 13.5C12 15 9.5 15.5 7.5 15.5M19 7.5C17.5 9 15 9.5 13 9.5M20.5 4.5C19 6 16.5 6.5 14.5 6.5" />
@@ -162,7 +164,6 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
           </svg>
         </div>
 
-        {/* Pill Button Container with dividers */}
         <div className="open-button-container">
           <button
             className="open-invitation-btn"

@@ -1,8 +1,8 @@
 .gallery-section {
   min-height: auto;
   background:
-    linear-gradient(180deg, rgba(255, 250, 242, 0.94), rgba(255, 254, 253, 0.94)),
-    linear-gradient(135deg, #fffaf2, #f6d8d7 48%, #eadfce);
+    linear-gradient(180deg, var(--overlay-light), var(--overlay-pearl)),
+    var(--gradient-section);
 }
 
 .couple-gallery-container {
@@ -20,7 +20,7 @@
   width: 110%;
   height: 110%;
   inset: -5%;
-  background: radial-gradient(circle, rgba(200, 168, 106, 0.25) 0%, rgba(246, 216, 215, 0.18) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(201, 160, 96, 0.25) 0%, var(--overlay-blush) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   filter: blur(40px);
@@ -52,13 +52,13 @@
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
-  height: clamp(320px, 60vh, 500px);
-  border-radius: 200px 200px 16px 16px;
+  height: clamp(280px, 55svh, 500px);
+  border-radius: clamp(120px, 30vw, 200px) clamp(120px, 30vw, 200px) 16px 16px;
   overflow: hidden;
   box-shadow: 
-    0 20px 50px rgba(89, 64, 54, 0.12),
+    0 20px 50px var(--shadow-romantic),
     0 0 0 8px var(--glass-strong);
-  border: 1px solid rgba(200, 168, 106, 0.24);
+  border: 1px solid var(--gold-border);
   background: var(--warm-beige);
 }
 
@@ -139,7 +139,7 @@
   background: var(--glass-strong);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(200, 168, 106, 0.2);
+  border: 1px solid var(--gold-border);
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -152,7 +152,7 @@
   cursor: pointer;
   pointer-events: auto;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 4px 16px rgba(89, 64, 54, 0.1);
+  box-shadow: var(--shadow-soft);
   padding: 0 0 4px 0;
 }
 
@@ -166,7 +166,7 @@
 .gallery-arrow:hover {
   background: var(--pearl);
   transform: scale(1.1);
-  box-shadow: 0 8px 24px rgba(89, 64, 54, 0.15);
+  box-shadow: 0 8px 24px var(--shadow-romantic);
 }
 
 .gallery-thumbs {
@@ -234,8 +234,8 @@
 
 @media (max-width: 420px) {
   .gallery-arrow {
-    width: 38px;
-    height: 38px;
+    width: var(--touch-min);
+    height: var(--touch-min);
   }
 
   .gallery-arrow svg {
@@ -255,5 +255,5 @@
 
 
 .gallery-head h2 {
-  text-shadow: 0 10px 30px rgba(169, 93, 100, 0.13);
+  text-shadow: 0 10px 30px rgba(184, 107, 114, 0.13);
 }

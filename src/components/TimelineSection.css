@@ -1,7 +1,7 @@
 .timeline-section {
   background:
-    linear-gradient(180deg, rgba(255, 250, 242, 0.96), rgba(255, 254, 253, 0.9)),
-    linear-gradient(135deg, #eadfce, #fffaf2 54%, #f6d8d7);
+    linear-gradient(180deg, var(--overlay-light), var(--overlay-pearl)),
+    var(--gradient-section-alt);
 }
 
 .agenda-list {
@@ -54,16 +54,16 @@
   border-radius: 50%;
   background: var(--pearl);
   border: 2px solid var(--champagne);
-  box-shadow: 0 0 10px rgba(200, 168, 106, 0.4);
+  box-shadow: 0 0 10px rgba(201, 160, 96, 0.4);
   z-index: 2;
 }
 
 .agenda-content {
   padding: 16px 20px;
-  border: 1px solid rgba(200, 168, 106, 0.28);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius);
   background: rgba(255, 254, 253, 0.74);
-  box-shadow: 0 10px 24px rgba(89, 64, 54, 0.06);
+  box-shadow: var(--shadow-soft);
 }
 
 .agenda-meta {

@@ -3,8 +3,8 @@
   place-items: center;
   padding-top: 48px;
   background:
-    linear-gradient(180deg, rgba(52, 43, 42, 0.22), rgba(255, 250, 242, 0.95)),
-    linear-gradient(135deg, #f6d8d7, #fffaf2 48%, #eadfce);
+    linear-gradient(180deg, rgba(61, 47, 48, 0.2), var(--overlay-light)),
+    var(--gradient-section);
 }
 
 .save-date-inner {
@@ -17,7 +17,7 @@
   position: relative;
   width: min(820px, 100%);
   padding: 9px;
-  border: 1px solid rgba(200, 168, 106, 0.55);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius);
   background: rgba(255, 254, 253, 0.38);
   box-shadow: var(--shadow);
@@ -46,7 +46,7 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--radius);
-  background: #241f1f;
+  background: var(--ink);
   aspect-ratio: 9 / 14;
 }
 
@@ -75,8 +75,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(52, 43, 42, 0.1), rgba(52, 43, 42, 0.48)),
-    linear-gradient(90deg, rgba(255, 250, 242, 0.28), transparent, rgba(255, 250, 242, 0.18));
+    linear-gradient(180deg, rgba(61, 47, 48, 0.1), rgba(61, 47, 48, 0.48)),
+    linear-gradient(90deg, rgba(255, 248, 245, 0.28), transparent, rgba(255, 248, 245, 0.18));
 }
 
 .save-date-text {
@@ -98,7 +98,7 @@
 .save-date-text h2 {
   margin-bottom: 6px;
   color: var(--pearl);
-  font-size: 4.3rem;
+  font-size: clamp(2.4rem, 10vw, 4.3rem);
   text-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
 }
 
@@ -113,11 +113,11 @@
   align-items: center;
   gap: 9px;
   padding: 10px 14px;
-  border: 1px solid rgba(200, 168, 106, 0.44);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius);
   color: var(--ink);
   background: rgba(255, 254, 253, 0.58);
-  box-shadow: 0 14px 32px rgba(89, 64, 54, 0.1);
+  box-shadow: var(--shadow-soft);
   animation: scrollPulse 1800ms ease-in-out infinite;
 }
 
@@ -161,14 +161,6 @@
 
 }
 
-@media (max-width: 420px) {
-  .save-date-text h2 {
-    font-size: 3.35rem;
-  }
-
-}
-
-
 .save-date-text h2 {
-  text-shadow: 0 10px 30px rgba(169, 93, 100, 0.13);
+  text-shadow: 0 10px 30px rgba(184, 107, 114, 0.13);
 }
