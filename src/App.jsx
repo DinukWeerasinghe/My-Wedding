@@ -162,6 +162,7 @@ function App() {
   }, []);
 
   const [guestName, setGuestName] = useState("your");
+  const [rawGuestName, setRawGuestName] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -169,6 +170,7 @@ function App() {
     if (nameParam) {
       const decodedName = decodeURIComponent(nameParam).replace(/_/g, " ");
       setGuestName(decodedName + "'s");
+      setRawGuestName(decodedName);
     }
   }, []);
 
@@ -447,7 +449,7 @@ function App() {
         <HeroSection heroBackdropRef={heroBackdropRef} guestName={guestName} showSeatingFinder={SHOW_SEATING_FINDER} />
 
         {/* Section 3: Parents & Family Heritage */}
-        <ParentsSection />
+        <ParentsSection guestDisplayName={rawGuestName} />
 
         {/* Section 4: Celebrations Details */}
         <DetailsSection />
