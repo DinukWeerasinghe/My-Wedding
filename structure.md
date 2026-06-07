@@ -10,14 +10,34 @@ My Wedding/
 ├── public/                    # Static assets served directly
 │   ├── images/                # Optimized photos, support graphics, and logos
 │   │   ├── logo.svg           # Coupled brand monogram logo
-│   │   ├── *.webp             # Compressed wedding photos (converted from PNG)
-│   │   └── *.js.download      # Embedded script assets
+│   │   └── *.webp             # Compressed wedding photos (converted from PNG)
+│   ├── music/                 # Audio files for background player
+│   │   └── wedding-background.mp3 # Romantic ambient instrumental track (3.4 MB)
+│   ├── intro.mp4              # Envelope opening intro video (3.0 MB)
+│   ├── wax-seal.png           # Raw high-resolution wax seal image (2.1 MB)
 │   └── Wedding Save the Date Video.mp4 # Save-the-date loop cinematic video (92.5 MB)
 ├── src/                       # React Application Source Code
+│   ├── components/            # Modular React components and their corresponding stylesheets
+│   │   ├── CountdownSection.css / .jsx # SVG circular countdown clock
+│   │   ├── DetailsSection.css / .jsx   # Dress code, venue details grid
+│   │   ├── EnvelopeIntro.css / .jsx    # Envelope loading/opening interaction
+│   │   ├── GallerySection.css / .jsx   # WebP lightbox gallery grid
+│   │   ├── HeroSection.css / .jsx      # Monogram, header, and welcoming text
+│   │   ├── LocationSection.css / .jsx  # Map iframe container and navigation
+│   │   ├── ParentsSection.css / .jsx   # Digital Invitation Card with URL guest display
+│   │   ├── PersonalNoteSection.css / .jsx # Romantic message from the couple
+│   │   ├── RsvpSection.css / .jsx      # Form for attending & liquor preferences
+│   │   ├── SaveDateSection.css / .jsx  # Video overlay section with mobile preloads
+│   │   ├── SeatingSection.css / .jsx   # Guest table lookups (hidden features)
+│   │   ├── TimelineSection.css / .jsx  # Beautiful 8-item event agenda timeline
+│   │   └── WeddingFooter.css / .jsx    # End signature footer layout
+│   ├── hooks/                 # Custom React hooks
+│   │   └── useLucideIcons.js  # Dynamically fetches and parses Lucide CDN icons
 │   ├── App.jsx                # Main React App containing layout, sections, state, and subcomponents
 │   ├── config.js              # Environment settings (RSVP Sheet endpoint, Music source path)
 │   ├── main.jsx               # React DOM initialization and entry point
-│   └── styles.css             # Visual styling, responsive layout, CSS variables, and GPU keyframes
+│   ├── styles.css             # Root visual styling, CSS variables, and global keyframes
+│   └── wax-seal.png           # Inline/compressed wax seal asset (390 KB)
 ├── index.html                 # HTML container shell, Web Fonts, and UMD Lucide loading
 ├── optimize-images.js         # Node script for bulk converting project images to WebP format
 ├── package.json               # Node/npm dependency and scripts configuration
@@ -32,29 +52,38 @@ My Wedding/
 ## File Responsibilities
 
 ### 1. Configuration & Metadata
-* **[package.json](file:///d:/My%20Projects/My%20Wedding/package.json)**: Manages dependencies (React, Vite) and script definitions (`dev`, `build`, `preview`).
+* **[package.json](file:///d:/My%20Projects/My%20Wedding/package.json)**: Manages dependencies (React, Vite, Sharp for compression) and script definitions (`dev`, `build`, `preview`).
 * **[vite.config.js](file:///d:/My%20Projects/My%20Wedding/vite.config.js)**: Configures Vite compiler parameters and plugins.
 * **[index.html](file:///d:/My%20Projects/My%20Wedding/index.html)**: Configures the initial page document, responsive viewport settings, Google Fonts, and the Lucide Icon library CDN.
 
 ### 2. Assets & Media
-* **[public/images/](file:///d:/My%20Projects/My%20Wedding/public/images)**: Stores all images. To ensure fast loading, PNG files are compressed into `.webp` files.
-* **[public/Wedding Save the Date Video.mp4](file:///d:/My%20Projects/My%20Wedding/public/Wedding%20Save%20the%20Date%20Video.mp4)**: Loaded in the Hero envelope background and the Agenda Save-the-date frames.
+* **[public/images/](file:///d:/My%20Projects/My%20Wedding/public/images)**: Stores all photos and visual elements. To ensure fast loading, photos are converted into compressed `.webp` assets.
+* **[public/music/wedding-background.mp3](file:///d:/My%20Projects/My%20Wedding/public/music/wedding-background.mp3)**: Background music path referenced in config.js and controlled in EnvelopeIntro/App.jsx.
+* **[public/intro.mp4](file:///d:/My%20Projects/My%20Wedding/public/intro.mp4)**: Envelope transition video played during page initialization.
+* **[public/Wedding Save the Date Video.mp4](file:///d:/My%20Projects/My%20Wedding/public/Wedding%20Save%20the%20Date%20Video.mp4)**: Loaded in the SaveDateSection cinematic background. Optimized via lazy-preloading on mobile.
 
 ### 3. Application Code
 * **[src/config.js](file:///d:/My%20Projects/My%20Wedding/src/config.js)**: Houses configurable URLs for RSVP form processing and background audio file paths.
-* **[src/App.jsx](file:///d:/My%20Projects/My%20Wedding/src/App.jsx)**: Contains all key sections:
-  * **EnvelopeIntro**: Floating envelope welcome letter with open action.
-  * **SaveDateSection**: Viewport-monitored video loop component.
-  * **HeroSection**: Personalized wedding greeting and key Poruwa info.
-  * **ParentsSection**: Parent heritage acknowledgment layout.
-  * **DetailsSection**: Time, dress code, venue detail grid.
-  * **CountdownSection**: Neomorphic SVG circular countdown timer.
-  * **SeatingSection**: Interactive search widget for guests to find tables.
-  * **TimelineSection**: Clock agenda vertical flow diagram.
-  * **GallerySection**: Editorial grid with built-in modal lightbox.
-  * **LocationSection**: Iframe embed of Capital City Hotel, Badulla.
-  * **RsvpSection**: Interactive response form submitting to Google Sheets.
-* **[src/styles.css](file:///d:/My%20Projects/My%20Wedding/src/styles.css)**: Holds all layout styling, CSS variables, media queries, and GPU-composited animations (using `translate3d` transforms instead of position properties to eliminate repaint overhead).
+* **[src/App.jsx](file:///d:/My%20Projects/My%20Wedding/src/App.jsx)**: The orchestrator of the web application. Handles:
+  * Guest name parsing from the URL query string (`?name=Guest+Name`) with sanitization to feed into invitation sections.
+  * Universal states (audio playback status, envelope animation, mobile device detection).
+  * Section layout configurations, including features like `SHOW_SEATING_FINDER` (presently set to `false`).
+* **[src/styles.css](file:///d:/My%20Projects/My%20Wedding/src/styles.css)**: Holds root layout styling, elegant typography styling, color variables, global media queries, and GPU-composited animations.
+
+### 4. Components (`src/components/`)
+* **[EnvelopeIntro](file:///d:/My%20Projects/My%20Wedding/src/components/EnvelopeIntro.jsx)**: Floating wax-sealed envelope welcome letter. Interactive open action plays `intro.mp4` and triggers background music.
+* **[SaveDateSection](file:///d:/My%20Projects/My%20Wedding/src/components/SaveDateSection.jsx)**: Viewport-monitored video loop component. Optimized for mobile by setting `preload="none"` on mobile vs `preload="metadata"` on desktop to save mobile data usage. Displays overlays at the top of the video container.
+* **[HeroSection](file:///d:/My%20Projects/My%20Wedding/src/components/HeroSection.jsx)**: Personalized greeting header showing the monogram design, couple's names, and key wedding details.
+* **[ParentsSection](file:///d:/My%20Projects/My%20Wedding/src/components/ParentsSection.jsx)**: Styled to mimic a physical digital invitation card. Automatically resolves and displays the guest's name in a script font with spring animations, lists parents' details, and omits RSVP phone contacts to keep details tidy.
+* **[DetailsSection](file:///d:/My%20Projects/My%20Wedding/src/components/DetailsSection.jsx)**: Multi-column grid containing essential event details: Poruwa Ceremony, Reception, Dress Code (Sri Lankan traditional / Western formal), and venue info.
+* **[CountdownSection](file:///d:/My%20Projects/My%20Wedding/src/components/CountdownSection.jsx)**: An SVG circle countdown timer that accurately calculates and updates days, hours, minutes, and seconds until the August 26, 2026 wedding date.
+* **[SeatingSection](file:///d:/My%20Projects/My%20Wedding/src/components/SeatingSection.jsx)**: Interactive search widget enabling guests to search for their assigned tables (currently hidden via setting toggles).
+* **[TimelineSection](file:///d:/My%20Projects/My%20Wedding/src/components/TimelineSection.jsx)**: Premium timeline vertical event stream displaying 8 main agenda milestones (e.g., Traditional Poruwa Ceremony, Ring Exchange, Champagne Toast, Cake Cutting, Lunch, Dj session). Features floating layouts, left/right alternation, and dynamic glow connectors.
+* **[GallerySection](file:///d:/My%20Projects/My%20Wedding/src/components/GallerySection.jsx)**: Image grid loading optimized WebP wedding photoshoot graphics. Tapping a picture brings up a high-performance interactive modal lightbox.
+* **[PersonalNoteSection](file:///d:/My%20Projects/My%20Wedding/src/components/PersonalNoteSection.jsx)**: A romantic message card sharing a personal note from Dinuka and Nimasha.
+* **[LocationSection](file:///d:/My%20Projects/My%20Wedding/src/components/LocationSection.jsx)**: Integrates interactive Google Map iframe embeds mapping directly to the Capital City Hotel venue.
+* **[RsvpSection](file:///d:/My%20Projects/My%20Wedding/src/components/RsvpSection.jsx)**: Guest reply interface. Allows inputting names, confirmation flags, guest count, and **Beverage Preference (Liquor / Soft Drinks)**, submitting responses to Google Sheets.
+* **[WeddingFooter](file:///d:/My%20Projects/My%20Wedding/src/components/WeddingFooter.jsx)**: Visual bottom page divider with copyright markers, credits, and wedding icons.
 
 ---
 
