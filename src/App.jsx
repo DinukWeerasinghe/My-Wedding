@@ -21,6 +21,7 @@ import { PersonalNoteSection } from "./components/PersonalNoteSection.jsx";
 import { LocationSection } from "./components/LocationSection.jsx";
 import { RsvpSection } from "./components/RsvpSection.jsx";
 import { WeddingFooter } from "./components/WeddingFooter.jsx";
+import { GuestUploadSection } from "./components/GuestUploadSection.jsx";
 
 const weddingDate = new Date("2026-08-26T09:10:00+05:30");
 const saveDateVideoUrl = "/Wedding Save the Date Video.mp4";
@@ -140,6 +141,14 @@ function App() {
   // Gallery grid lightbox states
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
+  const [isUploadMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("upload") === "true";
+    }
+    return false;
+  });
+
   const musicRef = useRef(null);
   const saveDateVideoRef = useRef(null);
   const heroBackdropRef = useRef(null);
@@ -150,7 +159,7 @@ function App() {
   const sparkles = useMemo(() => makeFloatingItems(isMobile ? 14 : 26, "sparkle"), [isMobile]);
   const hearts = useMemo(() => makeFloatingItems(isMobile ? 5 : 9, "heart"), [isMobile]);
 
-  useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex]);
+  useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex, isUploadMode]);
 
   useEffect(() => {
     document.body.classList.toggle("intro-active", !introClosed);
@@ -432,61 +441,69 @@ function App() {
         ))}
       </div>
 
-      <EnvelopeIntro hidden={introClosed} onEnter={closeIntro} videoUrl={introVideo} />
+      {!isUploadMode && (
+        <EnvelopeIntro hidden={introClosed} onEnter={closeIntro} videoUrl={introVideo} />
+      )}
 
       <main>
-        {/* Section 1: Save the Date Video */}
-        <SaveDateSection
-          videoRef={saveDateVideoRef}
-          videoFallback={videoFallback}
-          onVideoError={() => setVideoFallback(true)}
-          videoUrl={saveDateVideoUrl}
-          introClosed={introClosed}
-          isMobile={isMobile}
-        />
+        {isUploadMode ? (
+          <GuestUploadSection />
+        ) : (
+          <>
+            {/* Section 1: Save the Date Video */}
+            <SaveDateSection
+              videoRef={saveDateVideoRef}
+              videoFallback={videoFallback}
+              onVideoError={() => setVideoFallback(true)}
+              videoUrl={saveDateVideoUrl}
+              introClosed={introClosed}
+              isMobile={isMobile}
+            />
 
-        {/* Section 2: Hero Invitation Card */}
-        <HeroSection heroBackdropRef={heroBackdropRef} guestName={guestName} showSeatingFinder={SHOW_SEATING_FINDER} />
+            {/* Section 2: Hero Invitation Card */}
+            <HeroSection heroBackdropRef={heroBackdropRef} guestName={guestName} showSeatingFinder={SHOW_SEATING_FINDER} />
 
-        {/* Section 3: Parents & Family Heritage */}
-        <ParentsSection guestDisplayName={rawGuestName} />
+            {/* Section 3: Parents & Family Heritage */}
+            <ParentsSection guestDisplayName={rawGuestName} />
 
-        {/* Section 4: Celebrations Details */}
-        <DetailsSection />
+            {/* Section 4: Celebrations Details */}
+            <DetailsSection />
 
-        {/* Section 5: Neomorphic Circular Countdown */}
-        <CountdownSection countdown={countdown} />
+            {/* Section 5: Neomorphic Circular Countdown */}
+            <CountdownSection countdown={countdown} />
 
-        {/* Section 6: Interactive Seating Finder Search */}
-        {SHOW_SEATING_FINDER && (
-          <SeatingSection
-            seatingQuery={seatingQuery}
-            setSeatingQuery={setSeatingQuery}
-            seatingResult={seatingResult}
-            searchedName={searchedName}
-            onSearch={handleSeatingSearch}
-            onClear={() => { setSeatingQuery(""); setSeatingResult(null); }}
-          />
+            {/* Section 6: Interactive Seating Finder Search */}
+            {SHOW_SEATING_FINDER && (
+              <SeatingSection
+                seatingQuery={seatingQuery}
+                setSeatingQuery={setSeatingQuery}
+                seatingResult={seatingResult}
+                searchedName={searchedName}
+                onSearch={handleSeatingSearch}
+                onClear={() => { setSeatingQuery(""); setSeatingResult(null); }}
+              />
+            )}
+
+            {/* Section 7: Alternate Day Lineup Timeline */}
+            <TimelineSection />
+
+            {/* Section 8: Image Grid Collage with Lightbox */}
+            <GallerySection images={galleryImages} onOpenLightbox={handleOpenLightbox} />
+
+            {/* Section 9: Personal Note to Guests */}
+            <PersonalNoteSection />
+
+            {/* Section 10: Map & Locations */}
+            <LocationSection />
+
+            {/* Section 11: RSVP Google Form Submission */}
+            <RsvpSection onSubmit={handleRsvpSubmit} submitting={submitting} />
+          </>
         )}
-
-        {/* Section 7: Alternate Day Lineup Timeline */}
-        <TimelineSection />
-
-        {/* Section 8: Image Grid Collage with Lightbox */}
-        <GallerySection images={galleryImages} onOpenLightbox={handleOpenLightbox} />
-
-        {/* Section 9: Personal Note to Guests */}
-        <PersonalNoteSection />
-
-        {/* Section 10: Map & Locations */}
-        <LocationSection />
-
-        {/* Section 11: RSVP Google Form Submission */}
-        <RsvpSection onSubmit={handleRsvpSubmit} submitting={submitting} />
       </main>
 
       {/* Footer Branding section */}
-      <WeddingFooter showSeatingFinder={SHOW_SEATING_FINDER} />
+      {!isUploadMode && <WeddingFooter showSeatingFinder={SHOW_SEATING_FINDER} />}
 
       {/* Fullscreen Photo Lightbox Modal */}
       {lightboxIndex !== null && (

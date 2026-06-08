@@ -1,0 +1,236 @@
+/* Guest Upload Section */
+.guest-upload-section {
+    /* Using romantic gradients and overlays to fill the screen */
+    background:
+        linear-gradient(180deg, var(--overlay-light), var(--overlay-pearl)),
+        var(--gradient-section-rose);
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--section-pad-x);
+}
+
+.upload-content-card {
+    background: var(--glass-strong);
+    border: 1px solid var(--gold-border);
+    border-radius: clamp(24px, 5vw, 40px);
+    padding: clamp(40px, 8vw, 64px) clamp(24px, 5vw, 48px);
+    box-shadow: var(--shadow);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.upload-content-card h2 {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    text-shadow: 0 10px 30px rgba(184, 107, 114, 0.13);
+}
+
+.upload-text {
+    font-size: 1.12rem;
+    line-height: 1.8;
+    color: var(--soft-ink);
+    margin-bottom: 36px;
+}
+
+/* Progress Bar UI (Overall count) */
+.upload-status {
+    margin-bottom: 32px;
+}
+
+.status-track {
+    width: 100%;
+    height: 6px;
+    background: var(--champagne-light);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.status-fill {
+    height: 100%;
+    background: var(--champagne);
+    border-radius: 8px;
+    transition: width 600ms ease-out;
+}
+
+.status-text {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--mauve-gray);
+    letter-spacing: 0.5px;
+}
+
+/* Active Upload Progress (Real-time percentage) */
+.upload-progress-container {
+    background: rgba(220, 180, 110, 0.05);
+    border: 1px solid rgba(220, 180, 110, 0.2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 0 auto 24px auto;
+    max-width: 450px;
+    text-align: left;
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(234, 216, 184, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--champagne), #dcb46e);
+    border-radius: 4px;
+    transition: width 200ms ease-out;
+}
+
+.progress-percentage {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--soft-ink);
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Status Messages */
+.upload-message {
+    margin: 0 auto 24px auto;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: 450px;
+    font-weight: 500;
+}
+
+.upload-message.success {
+    background: rgba(46, 117, 89, 0.08);
+    color: #2b6c53;
+    border: 1px solid rgba(46, 117, 89, 0.2);
+}
+
+.upload-message.error {
+    background: rgba(184, 107, 114, 0.08);
+    color: #b86b72;
+    border: 1px solid rgba(184, 107, 114, 0.2);
+}
+
+.msg-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* Thank You Message Area */
+.thank-you-note {
+    background: rgba(220, 180, 110, 0.08);
+    border: 1px solid var(--gold-border);
+    padding: 18px 24px;
+    border-radius: 16px;
+    margin: 0 auto 32px auto;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.thank-you-note p {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    color: var(--soft-ink);
+}
+
+.heart-icon-gold {
+    width: 24px;
+    height: 24px;
+    color: var(--champagne);
+    fill: var(--champagne);
+    animation: heartbeat 1.5s infinite;
+}
+
+/* Button Styling (Extends your .submit-button class) */
+.upload-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.upload-btn {
+    cursor: pointer;
+    font-size: 1.15rem;
+    padding: 16px 36px;
+    border-radius: 40px;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.upload-btn.is-loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.upload-btn.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* Animations */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.15); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.15); }
+    70% { transform: scale(1); }
+}
+
+/* Signature Area */
+.upload-signature {
+    margin-top: 24px;
+    border-top: 1px solid var(--rose-border);
+    padding-top: 28px;
+}
+
+.upload-signature .signature-salutation {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--mauve-gray);
+    margin-bottom: 8px;
+}
+
+.upload-signature .signature-names {
+    font-family: var(--font-script);
+    font-size: clamp(2.2rem, 8vw, 2.8rem);
+    color: var(--accent-script);
+    line-height: 1;
+}

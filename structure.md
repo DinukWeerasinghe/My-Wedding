@@ -84,6 +84,8 @@ My Wedding/
 * **[LocationSection](file:///d:/My%20Projects/My%20Wedding/src/components/LocationSection.jsx)**: Integrates interactive Google Map iframe embeds mapping directly to the Capital City Hotel venue.
 * **[RsvpSection](file:///d:/My%20Projects/My%20Wedding/src/components/RsvpSection.jsx)**: Guest reply interface. Allows inputting names, confirmation flags, guest count, and **Beverage Preference (Liquor / Soft Drinks)**, submitting responses to Google Sheets.
 * **[WeddingFooter](file:///d:/My%20Projects/My%20Wedding/src/components/WeddingFooter.jsx)**: Visual bottom page divider with copyright markers, credits, and wedding icons.
+* **[GuestUploadSection](file:///d:/My%20Projects/My%20Wedding/src/components/GuestUploadSection.jsx)**: Direct-to-browser live memory booth component for uploading guest photos to Cloudinary. Restricts guests to 5 photos via local storage tracking, uses ambient falling backgrounds, and features a romantic design signature.
+
 
 ---
 
