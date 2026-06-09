@@ -64,24 +64,24 @@ export function RsvpSection({ onSubmit, submitting }) {
             </div>
           </fieldset>
 
-          {/* 🥂 Beverage Preference */}
+          {/* Beverage Preference */}
           <fieldset>
             <legend>
-              <span className="legend-icon">🥂</span> Beverage Preference
+              <i data-lucide="wine" className="legend-icon-svg" aria-hidden="true"></i> Beverage Preference
             </legend>
             <p className="fieldset-hint">Will you be enjoying liquor at the reception?</p>
             <div className="beverage-options">
               <label className="beverage-label">
                 <input type="radio" name="liquor" value="Yes, liquor" defaultChecked />
                 <span className="beverage-chip">
-                  <span className="beverage-emoji">🍾</span>
+                  <i data-lucide="wine" className="beverage-icon-svg" aria-hidden="true"></i>
                   Yes, I'll have liquor
                 </span>
               </label>
               <label className="beverage-label">
                 <input type="radio" name="liquor" value="No, soft drinks only" />
                 <span className="beverage-chip">
-                  <span className="beverage-emoji">🥤</span>
+                  <i data-lucide="glass-water" className="beverage-icon-svg" aria-hidden="true"></i>
                   Soft drinks only
                 </span>
               </label>

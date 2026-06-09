@@ -191,9 +191,11 @@
   justify-content: flex-start;
 }
 
-.agenda-icon {
-  font-size: 1.5rem;
-  line-height: 1;
+.agenda-icon-svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+  color: var(--champagne);
   filter: drop-shadow(0 2px 6px rgba(122, 74, 79, 0.2));
 }
 
@@ -282,8 +284,12 @@
   flex-wrap: wrap;
 }
 
-.timeline-end-icon {
-  font-size: 1.6rem;
+.timeline-end-icon-svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.5;
+  color: var(--rose);
+  fill: var(--rose);
   animation: heartBeat 1800ms ease-in-out infinite;
 }
 

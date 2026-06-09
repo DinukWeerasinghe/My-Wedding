@@ -10,8 +10,6 @@ const CLOUDINARY_UPLOAD_PRESET = "wedding_booth"; // Replace with your Cloudinar
 
 export function GuestUploadSection() {
     const maxPhotos = 5;
-    // REMOVE THIS BEFORE THE WEDDING!
-    localStorage.removeItem("wedding_upload_count");
 
     const [uploadedCount, setUploadedCount] = useState(() => {
         if (typeof window !== "undefined") {

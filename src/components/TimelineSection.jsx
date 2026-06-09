@@ -7,7 +7,7 @@ export function TimelineSection() {
       time: "9:00 AM",
       title: "Ceremony Begins",
       desc: "Doors open as loved ones arrive, filling the hall with warmth, laughter and the quiet buzz of anticipation. A moment to savour before the magic unfolds.",
-      icon: "✨",
+      icon: "sparkles",
       accent: "gold",
     },
     {
@@ -15,15 +15,15 @@ export function TimelineSection() {
       time: "9:10 AM",
       title: "Poruwa Ceremony",
       desc: "Draped in tradition and sacred blessings, Dinuka and Nimasha step onto the Poruwa to unite their hearts and families in an age-old rite of love.",
-      icon: "🌸",
+      icon: "flower-2",
       accent: "rose",
     },
     {
       num: "03",
       time: "11:30 AM",
       title: "Bar Is Opening",
-      desc: "The celebration truly begins! Raise a glass to the happy couple — champagne, cocktails and good cheer are now flowing freely. Cheers! 🥂",
-      icon: "🍾",
+      desc: "The celebration truly begins! Raise a glass to the happy couple — champagne, cocktails and good cheer are now flowing freely. Cheers!",
+      icon: "wine",
       accent: "gold",
     },
     {
@@ -31,7 +31,7 @@ export function TimelineSection() {
       time: "12:00 PM",
       title: "Open Lunch Buffet",
       desc: "A lavish spread prepared with love — savour every bite as you mingle, make memories and toast to a lifetime of happiness together.",
-      icon: "🍽️",
+      icon: "utensils",
       accent: "rose",
     },
     {
@@ -39,7 +39,7 @@ export function TimelineSection() {
       time: "1:30 PM",
       title: "Bar Closing",
       desc: "Last call, friends! One final toast to the newlyweds before we close the bar and move on to even more beautiful moments ahead.",
-      icon: "🥤",
+      icon: "cup-soda",
       accent: "gold",
     },
     {
@@ -47,7 +47,7 @@ export function TimelineSection() {
       time: "1:40 PM",
       title: "Group Photo Session",
       desc: "Gather together for timeless portraits — these are the frames that will hang on walls and warm hearts for generations to come.",
-      icon: "📸",
+      icon: "camera",
       accent: "rose",
     },
     {
@@ -55,7 +55,7 @@ export function TimelineSection() {
       time: "2:30 PM",
       title: "Dancing Floor Opens",
       desc: "The music rises, the lights dim, and the dance floor is yours. Let your feet speak what words cannot — joy, love and pure celebration.",
-      icon: "💃",
+      icon: "music",
       accent: "gold",
     },
     {
@@ -63,7 +63,7 @@ export function TimelineSection() {
       time: "4:08 PM",
       title: "Couple Departs",
       desc: "As the sun begins its golden descent, Dinuka and Nimasha bid farewell — stepping hand in hand into their beautiful new chapter. With love, always.",
-      icon: "🕊️",
+      icon: "heart",
       accent: "rose",
     },
   ];
@@ -96,7 +96,7 @@ export function TimelineSection() {
               {/* Card */}
               <div className={`agenda-card agenda-card--${item.accent}`}>
                 <div className="agenda-card-header">
-                  <span className="agenda-icon" aria-hidden="true">{item.icon}</span>
+                  <i data-lucide={item.icon} className="agenda-icon-svg" aria-hidden="true"></i>
                   <span className="agenda-num">{item.num}</span>
                 </div>
                 <time className="agenda-time">{item.time}</time>
@@ -118,7 +118,7 @@ export function TimelineSection() {
 
         {/* End flourish */}
         <div className="timeline-end reveal" aria-hidden="true">
-          <span className="timeline-end-icon">💕</span>
+          <i data-lucide="heart" className="timeline-end-icon-svg" aria-hidden="true"></i>
           <span className="timeline-end-line"></span>
           <span className="timeline-end-text">With Love — Dinuka &amp; Nimasha</span>
           <span className="timeline-end-line"></span>
