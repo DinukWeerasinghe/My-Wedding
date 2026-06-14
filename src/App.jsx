@@ -162,8 +162,13 @@ function App() {
   useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex, isUploadMode]);
 
   useEffect(() => {
+    // In upload mode there is no intro — never lock the body scroll
+    if (isUploadMode) {
+      document.body.classList.remove("intro-active");
+      return;
+    }
     document.body.classList.toggle("intro-active", !introClosed);
-  }, [introClosed]);
+  }, [introClosed, isUploadMode]);
 
   useEffect(() => {
     const loadingTimer = window.setTimeout(() => setLoadingHidden(true), 650);

@@ -21,7 +21,7 @@ export function GuestUploadSection() {
     });
 
     const [isUploading, setIsUploading] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState(0); // Real-time upload percentage (0 - 100)
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [status, setStatus] = useState(null); // { type: 'success' | 'error', message: string }
 
     // Trigger Lucide icon updates when reactive states update
@@ -45,38 +45,29 @@ export function GuestUploadSection() {
         setStatus(null);
 
         const options = {
-            maxSizeMB: 1, // Compress to ~1MB to save Cloudinary storage
+            maxSizeMB: 1,
             maxWidthOrHeight: 1920,
             useWebWorker: true
         };
 
-        // Track progress per file. We start with original size, but will update it after compression.
         const progressTracker = files.map(file => ({ loaded: 0, total: file.size }));
         let successfulUploads = 0;
 
         const uploadFile = async (file, index) => {
             try {
-                // 1. Compress the file before uploading
                 const compressedFile = await imageCompression(file, options);
-
-                // Update tracker with the new smaller size so the progress bar stays accurate
                 progressTracker[index].total = compressedFile.size;
 
-                // 2. Perform the upload
                 return new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`);
 
-                    // Listen to upload progress events
                     xhr.upload.onprogress = (event) => {
                         if (event.lengthComputable) {
                             progressTracker[index].loaded = event.loaded;
-
-                            // Compute overall combined progress
                             const totalLoaded = progressTracker.reduce((sum, item) => sum + item.loaded, 0);
                             const totalSize = progressTracker.reduce((sum, item) => sum + item.total, 0);
-                            const percentage = Math.round((totalLoaded / totalSize) * 100);
-                            setUploadProgress(percentage);
+                            setUploadProgress(Math.round((totalLoaded / totalSize) * 100));
                         }
                     };
 
@@ -98,66 +89,73 @@ export function GuestUploadSection() {
                     xhr.onabort = () => reject(new Error("Upload cancelled."));
 
                     const formData = new FormData();
-                    formData.append("file", compressedFile); // Append the compressed file, not original
+                    formData.append("file", compressedFile);
                     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
                     xhr.send(formData);
                 });
-            } catch (error) {
+            } catch {
                 return Promise.reject(new Error("Image compression failed."));
             }
         };
 
         try {
-            // Upload all selected files in parallel
-            const uploadPromises = files.map((file, idx) => uploadFile(file, idx));
-            await Promise.allSettled(uploadPromises);
+            await Promise.allSettled(files.map((file, idx) => uploadFile(file, idx)));
 
             if (successfulUploads > 0) {
                 const newCount = uploadedCount + successfulUploads;
                 setUploadedCount(newCount);
                 localStorage.setItem("wedding_upload_count", String(newCount));
 
-                if (successfulUploads === files.length) {
-                    setStatus({
-                        type: "success",
-                        message: `Successfully uploaded ${successfulUploads} photo(s)! Thank you for sharing.`
-                    });
-                } else {
-                    setStatus({
-                        type: "success",
-                        message: `Uploaded ${successfulUploads} photo(s), but some failed. Please try again.`
-                    });
-                }
-            } else {
                 setStatus({
-                    type: "error",
-                    message: "Failed to upload images. Please try again."
+                    type: "success",
+                    message: successfulUploads === files.length
+                        ? `Thank you! ${successfulUploads} moment(s) added to our album 💛`
+                        : `Uploaded ${successfulUploads} photo(s), but some failed. Please try again.`
                 });
+            } else {
+                setStatus({ type: "error", message: "Upload failed. Please check your connection and try again." });
             }
         } catch (err) {
             console.error("Cloudinary upload error:", err);
-            setStatus({
-                type: "error",
-                message: "An unexpected error occurred during upload. Please check your connection."
-            });
+            setStatus({ type: "error", message: "An unexpected error occurred. Please try again." });
         } finally {
             setIsUploading(false);
             setUploadProgress(0);
-            e.target.value = ""; // Clear file input selection
+            e.target.value = "";
         }
     };
+
+    const remainingSlots = maxPhotos - uploadedCount;
+    const isAtLimit = uploadedCount >= maxPhotos;
 
     return (
         <section className="section guest-upload-section" id="upload" aria-labelledby="uploadTitle">
             <div className="section-inner upload-grid reveal is-visible">
 
                 <div className="upload-content-card animate-fade-in">
+
+                    {/* Floating camera decoration */}
+                    <div className="upload-deco-icon" aria-hidden="true">
+                        <i data-lucide="camera"></i>
+                    </div>
+
                     <span className="eyebrow">Share Your View</span>
                     <h2 id="uploadTitle">Live Memory Booth</h2>
 
                     <p className="upload-text">
-                        We'd love to see our special day through your eyes! Snap and share up to 5 of your favorite moments with us. Your photos will be privately saved to our digital wedding album.
+                        Every smile, every tear, every joyful glance — your perspective makes our story complete.
+                        Share up to 5 of your favourite moments and they&apos;ll live forever in our wedding album.
                     </p>
+
+                    {/* Warm contextual label */}
+                    {!isAtLimit && (
+                        <span className="upload-invite-label">
+                            <i data-lucide="sparkles" aria-hidden="true"></i>
+                            {uploadedCount === 0
+                                ? `Up to ${maxPhotos} photos welcome`
+                                : `${remainingSlots} more moment${remainingSlots !== 1 ? "s" : ""} welcome`}
+                        </span>
+                    )}
 
                     {/* Overall Progress Tracker */}
                     <div className="upload-status">
@@ -172,7 +170,7 @@ export function GuestUploadSection() {
                         </span>
                     </div>
 
-                    {/* Real-time Upload Progress Bar */}
+                    {/* Real-time Upload Progress */}
                     {isUploading && (
                         <div className="upload-progress-container" aria-live="polite">
                             <div className="progress-bar-track">
@@ -181,56 +179,63 @@ export function GuestUploadSection() {
                                     style={{ width: `${uploadProgress}%` }}
                                 ></div>
                             </div>
-                            <span className="progress-percentage">{uploadProgress}% Uploading...</span>
+                            <span className="progress-percentage">{uploadProgress}% Uploading…</span>
                         </div>
                     )}
 
-                    {/* Status/Error Messages */}
+                    {/* Status Messages */}
                     {status && !isUploading && (
                         <div className={`upload-message ${status.type}`} role="alert">
-                            {status.type === "success" ? (
-                                <i data-lucide="check-circle" className="msg-icon" aria-hidden="true"></i>
-                            ) : (
-                                <i data-lucide="alert-circle" className="msg-icon" aria-hidden="true"></i>
-                            )}
+                            {status.type === "success"
+                                ? <i data-lucide="check-circle" className="msg-icon" aria-hidden="true"></i>
+                                : <i data-lucide="alert-circle" className="msg-icon" aria-hidden="true"></i>
+                            }
                             <span>{status.message}</span>
                         </div>
                     )}
 
-                    {/* Limit Reached Note */}
-                    {uploadedCount >= maxPhotos && (
+                    {/* Limit Reached */}
+                    {isAtLimit && (
                         <div className="thank-you-note">
                             <i data-lucide="heart" className="heart-icon-gold" aria-hidden="true"></i>
-                            <p>You have shared 5 beautiful moments. Thank you for completing our digital guest album!</p>
+                            <p>You have gifted us 5 beautiful moments. Thank you from the bottom of our hearts!</p>
                         </div>
                     )}
 
                     {/* Action Area */}
                     <div className="upload-actions">
                         <label
-                            className={`submit-button upload-btn ${isUploading ? 'is-loading' : ''} ${uploadedCount >= maxPhotos ? 'disabled' : ''}`}
-                            style={uploadedCount >= maxPhotos ? { opacity: 0.5, pointerEvents: 'none' } : undefined}
+                            className={`submit-button upload-btn ${isUploading ? "is-loading" : ""} ${isAtLimit ? "disabled" : ""}`}
+                            style={isAtLimit ? { opacity: 0.42, pointerEvents: "none" } : undefined}
                         >
-                            <i data-lucide={isUploading ? "loader-2" : "camera"} className={isUploading ? "animate-spin" : ""} aria-hidden="true"></i>
-                            <span>{isUploading ? "Uploading..." : "Choose / Take Photo"}</span>
+                            <i
+                                data-lucide={isUploading ? "loader-2" : "camera"}
+                                className={isUploading ? "animate-spin" : ""}
+                                aria-hidden="true"
+                            ></i>
+                            <span>{isUploading ? "Uploading…" : "Add Your Photo"}</span>
                             <input
                                 type="file"
                                 accept="image/*"
                                 multiple
                                 style={{ display: "none" }}
-                                disabled={isUploading || uploadedCount >= maxPhotos}
+                                disabled={isUploading || isAtLimit}
                                 onChange={handleFileChange}
                             />
                         </label>
+
+                        {!isAtLimit && !isUploading && (
+                            <span className="upload-hint">Opens your camera or photo library</span>
+                        )}
                     </div>
 
-                    {/* Bottom Signature matches your PersonalNoteSection */}
+                    {/* Signature */}
                     <div className="upload-signature">
                         <span className="signature-salutation">Thank you for capturing this,</span>
                         <div className="signature-names">Nimasha &amp; Dinuka</div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </section>
     );
