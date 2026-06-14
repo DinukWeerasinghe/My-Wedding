@@ -24,7 +24,7 @@ export function DetailsSection() {
         </div>
 
         <div className="details-note reveal">
-          <p>We kindly request your RSVP by <strong>10 August 2026</strong></p>
+          <p>We kindly request your RSVP by <strong>15 July 2026</strong></p>
         </div>
       </div>
     </section>
