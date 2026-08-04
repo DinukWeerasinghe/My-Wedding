@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import "./EnvelopeIntro.css";
-import actualSealImg from "/public/wax-seal.png";
+import { getGuestNameFromSearch } from "../utils/guestName.js";
+
+const actualSealImg = "/wax-seal.png";
 
 export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
   const videoRef = useRef(null);
   const [opening, setOpening] = useState(false);
 
-  const guestName = new URLSearchParams(window.location.search).get("name");
+  const guestName = getGuestNameFromSearch();
 
   useEffect(() => {
     if (hidden) {
@@ -79,7 +81,7 @@ export function EnvelopeIntro({ hidden, onEnter, videoUrl }) {
         <div className="intro-copy">
           {guestName && (
             <div className="guest-name">
-              Dear {decodeURIComponent(guestName).replace(/_/g, " ")}
+              Dear {guestName}
             </div>
           )}
 

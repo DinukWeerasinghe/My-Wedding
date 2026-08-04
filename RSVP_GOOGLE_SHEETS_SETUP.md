@@ -7,6 +7,7 @@ Use this to collect RSVP submissions into a Google Sheet report.
 1. Open Google Sheets.
 2. Create a new spreadsheet named `Dinuka Nimasha RSVP`.
 3. Rename the first sheet tab to `RSVP`.
+4. Optional: create a second sheet tab named `Final Confirmations`. The script can also create it automatically.
 
 ## 2. Add Apps Script
 
@@ -15,7 +16,8 @@ Use this to collect RSVP submissions into a Google Sheet report.
 3. Paste this code:
 
 ```javascript
-const SHEET_NAME = "RSVP";
+const RSVP_SHEET_NAME = "RSVP";
+const FINAL_CONFIRMATIONS_SHEET_NAME = "Final Confirmations";
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -23,23 +25,13 @@ function doPost(e) {
 
   try {
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.insertSheet(SHEET_NAME);
     const data = JSON.parse((e.postData && e.postData.contents) || "{}");
 
-    ensureHeaderRow(sheet);
-
-    sheet.appendRow([
-      new Date(),
-      data.event || "",
-      data.name || "",
-      data.guests || "",
-      data.attendance || "",
-      data.liquor || "",        // NEW: Liquor / Beverage Preference
-      data.message || "",
-      data.submittedAt || "",
-      data.pageUrl || "",
-      data.phone || "",
-    ]);
+    if (isFinalConfirmation(data)) {
+      appendFinalConfirmation(spreadsheet, data);
+    } else {
+      appendRsvp(spreadsheet, data);
+    }
 
     return ContentService
       .createTextOutput(JSON.stringify({ ok: true }))
@@ -53,21 +45,73 @@ function doPost(e) {
   }
 }
 
-function ensureHeaderRow(sheet) {
-  if (sheet.getLastRow() > 0) return;
+function isFinalConfirmation(data) {
+  return data.submissionType === "Final Attendance Confirmation" ||
+    data.source === "confirmation-page";
+}
 
-  sheet.appendRow([
+function appendRsvp(spreadsheet, data) {
+  const sheet = spreadsheet.getSheetByName(RSVP_SHEET_NAME) ||
+    spreadsheet.insertSheet(RSVP_SHEET_NAME);
+
+  ensureHeaderRow(sheet, [
     "Received At",
     "Event",
     "Name",
     "Number of Guests",
     "Attendance",
-    "Liquor Preference",        // NEW column
+    "Liquor Preference",
     "Message",
     "Submitted At",
     "Page URL",
     "Phone Number",
   ]);
+
+  sheet.appendRow([
+    new Date(),
+    data.event || "",
+    data.name || "",
+    data.guests || "",
+    data.attendance || "",
+    data.liquor || "",
+    data.message || "",
+    data.submittedAt || "",
+    data.pageUrl || "",
+    data.phone || "",
+  ]);
+}
+
+function appendFinalConfirmation(spreadsheet, data) {
+  const sheet = spreadsheet.getSheetByName(FINAL_CONFIRMATIONS_SHEET_NAME) ||
+    spreadsheet.insertSheet(FINAL_CONFIRMATIONS_SHEET_NAME);
+
+  ensureHeaderRow(sheet, [
+    "Timestamp",
+    "Event",
+    "Guest Name",
+    "Attendance",
+    "Submission Type",
+    "Source",
+    "Submitted At",
+    "Page URL",
+  ]);
+
+  sheet.appendRow([
+    new Date(),
+    data.event || "",
+    data.name || "",
+    data.attendance || "",
+    data.submissionType || "",
+    data.source || "",
+    data.submittedAt || "",
+    data.pageUrl || "",
+  ]);
+}
+
+function ensureHeaderRow(sheet, headers) {
+  if (sheet.getLastRow() > 0) return;
+
+  sheet.appendRow(headers);
 }
 ```
 
@@ -85,7 +129,7 @@ function ensureHeaderRow(sheet) {
 https://script.google.com/macros/s/
 ```
 
-> **⚠️ Already deployed?** If you previously deployed the script, you must create a **New Deployment** (not re-deploy the old version) for the column changes to take effect. The old submissions won't have a Liquor Preference column, so you can manually add the header to your existing sheet.
+> **Already deployed?** If you previously deployed the script, create a new version/deployment so the final confirmation routing code is live. Existing RSVP rows can stay as they are.
 
 ## 4. Connect This Website
 
@@ -95,7 +139,14 @@ Open `src/config.js` and paste your Web App URL here:
 const RSVP_ENDPOINT = "PASTE_YOUR_WEB_APP_URL_HERE";
 ```
 
-After hosting the website, submit one test RSVP and check the Google Sheet. Each guest RSVP will appear as a new row with columns:
+After hosting the website, submit one test RSVP and check the `RSVP` sheet. Each guest RSVP will appear as a new row with columns:
 
 | Received At | Event | Name | Guests | Attendance | **Liquor Preference** | Message | Submitted At | Page URL | Phone |
 |---|---|---|---|---|---|---|---|---|---|
+
+Then open `/confirm?name=Test_Guest`, submit a `Yes` response, change it, and submit a `No` response. Final attendance confirmations will appear in the `Final Confirmations` sheet with columns:
+
+| Timestamp | Event | Guest Name | Attendance | Submission Type | Source | Submitted At | Page URL |
+|---|---|---|---|---|---|---|---|
+
+Final confirmations are append-only. If a guest changes their answer, use the newest `Timestamp` row for that guest as the current final answer.

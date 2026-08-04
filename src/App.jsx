@@ -22,6 +22,8 @@ import { LocationSection } from "./components/LocationSection.jsx";
 import { RsvpSection } from "./components/RsvpSection.jsx";
 import { WeddingFooter } from "./components/WeddingFooter.jsx";
 import { GuestUploadSection } from "./components/GuestUploadSection.jsx";
+import { AttendanceConfirmation } from "./components/AttendanceConfirmation.jsx";
+import { getGuestNameFromSearch } from "./utils/guestName.js";
 
 const weddingDate = new Date("2026-08-26T09:10:00+05:30");
 const saveDateVideoUrl = "/Wedding Save the Date Video.mp4";
@@ -141,8 +143,16 @@ function App() {
   // Gallery grid lightbox states
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
+  const [isConfirmationMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.location.pathname === "/confirm";
+    }
+    return false;
+  });
+
   const [isUploadMode] = useState(() => {
     if (typeof window !== "undefined") {
+      if (window.location.pathname === "/confirm") return false;
       const params = new URLSearchParams(window.location.search);
       return params.get("upload") === "true";
     }
@@ -159,41 +169,57 @@ function App() {
   const sparkles = useMemo(() => makeFloatingItems(isMobile ? 14 : 26, "sparkle"), [isMobile]);
   const hearts = useMemo(() => makeFloatingItems(isMobile ? 5 : 9, "heart"), [isMobile]);
 
-  useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex, isUploadMode]);
+  useLucideIcons([musicPlaying, submitting, introClosed, seatingResult, lightboxIndex, isUploadMode, isConfirmationMode]);
 
   useEffect(() => {
-    // In upload mode there is no intro — never lock the body scroll
-    if (isUploadMode) {
+    // Upload and confirmation modes have no intro, so they should never lock body scroll.
+    if (isUploadMode || isConfirmationMode) {
       document.body.classList.remove("intro-active");
       return;
     }
     document.body.classList.toggle("intro-active", !introClosed);
-  }, [introClosed, isUploadMode]);
+  }, [introClosed, isUploadMode, isConfirmationMode]);
 
   useEffect(() => {
     const loadingTimer = window.setTimeout(() => setLoadingHidden(true), 650);
     return () => window.clearTimeout(loadingTimer);
   }, []);
 
-  const [guestName, setGuestName] = useState("your");
-  const [rawGuestName, setRawGuestName] = useState("");
+  useEffect(() => {
+    if (!isConfirmationMode) return;
+
+    const previousTitle = document.title;
+    document.title = "Confirm Your Attendance | Dinuka & Nimasha";
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [isConfirmationMode]);
+
+  const [guestName, setGuestName] = useState(() => {
+    const decodedName = getGuestNameFromSearch();
+    return decodedName ? decodedName + "'s" : "your";
+  });
+  const [rawGuestName, setRawGuestName] = useState(() => getGuestNameFromSearch());
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const nameParam = params.get("name");
-    if (nameParam) {
-      const decodedName = decodeURIComponent(nameParam).replace(/_/g, " ");
+    const decodedName = getGuestNameFromSearch();
+    if (decodedName) {
       setGuestName(decodedName + "'s");
       setRawGuestName(decodedName);
     }
   }, []);
 
   useEffect(() => {
+    if (isConfirmationMode) return;
+
     const interval = window.setInterval(() => setCountdown(getCountdown()), 1000);
     return () => window.clearInterval(interval);
-  }, []);
+  }, [isConfirmationMode]);
 
   useEffect(() => {
+    if (isConfirmationMode) return;
+
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -208,9 +234,11 @@ function App() {
 
     document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
     return () => revealObserver.disconnect();
-  }, [introClosed]);
+  }, [introClosed, isConfirmationMode]);
 
   useEffect(() => {
+    if (isConfirmationMode) return;
+
     const handleScroll = () => {
       const y = window.scrollY || document.documentElement.scrollTop;
       setBackToTopVisible(y > 700);
@@ -223,9 +251,10 @@ function App() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isConfirmationMode]);
 
   useEffect(() => {
+    if (isConfirmationMode) return;
     if (!introClosed || !saveDateVideoRef.current) return;
 
     const videoElement = saveDateVideoRef.current;
@@ -244,7 +273,7 @@ function App() {
     return () => {
       observer.unobserve(videoElement);
     };
-  }, [introClosed]);
+  }, [introClosed, isConfirmationMode]);
 
   function showToast(message) {
     setToast(message);
@@ -355,6 +384,20 @@ function App() {
     }
   }
 
+  async function handleFinalConfirmationSubmit({ name, attendance }) {
+    const confirmationPayload = {
+      event: "Dinuka & Nimasha Wedding",
+      submissionType: "Final Attendance Confirmation",
+      name,
+      attendance,
+      submittedAt: new Date().toISOString(),
+      pageUrl: window.location.href,
+      source: "confirmation-page",
+    };
+
+    await sendRsvpToGoogleSheet(confirmationPayload);
+  }
+
   // Lightbox handlers
   const handleOpenLightbox = (index) => {
     setLightboxIndex(index);
@@ -381,77 +424,86 @@ function App() {
         <div className="loading-line"></div>
       </div>
 
-      <audio ref={musicRef} loop preload="none" src={MUSIC_SOURCE || undefined}></audio>
+      {!isConfirmationMode && (
+        <>
+          <audio ref={musicRef} loop preload="none" src={MUSIC_SOURCE || undefined}></audio>
 
-      {/* Floating Action Audio FAB */}
-      <button className={`utility-button music-toggle ${musicPlaying ? "is-playing" : ""}`} type="button" onClick={toggleMusic} aria-label="Toggle background music" title="Toggle music">
-        <i data-lucide={musicPlaying ? "volume-2" : "volume-x"} aria-hidden="true"></i>
-        <span>Music</span>
-      </button>
+          {/* Floating Action Audio FAB */}
+          <button className={`utility-button music-toggle ${musicPlaying ? "is-playing" : ""}`} type="button" onClick={toggleMusic} aria-label="Toggle background music" title="Toggle music">
+            <i data-lucide={musicPlaying ? "volume-2" : "volume-x"} aria-hidden="true"></i>
+            <span>Music</span>
+          </button>
 
-      {/* Back to Top */}
-      <button className={`utility-button back-to-top ${backToTopVisible ? "is-visible" : ""}`} type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" title="Back to top">
-        <i data-lucide="arrow-up" aria-hidden="true"></i>
-        <span>Top</span>
-      </button>
+          {/* Back to Top */}
+          <button className={`utility-button back-to-top ${backToTopVisible ? "is-visible" : ""}`} type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" title="Back to top">
+            <i data-lucide="arrow-up" aria-hidden="true"></i>
+            <span>Top</span>
+          </button>
 
-      {/* Background Falling Petals */}
-      <div className="petal-field" aria-hidden="true">
-        {petals.map((petal) => (
-          <span
-            key={petal.id}
-            className={`petal ${petal.blurred ? "petal--blurred" : ""}`}
-            style={{
-              left: petal.left,
-              "--drift": petal.drift,
-              animationDuration: petal.duration,
-              animationDelay: petal.delay,
-              transform: `scale(${petal.scale}) rotate(${petal.rotation}deg)`,
-            }}
-          ></span>
-        ))}
-      </div>
+          {/* Background Falling Petals */}
+          <div className="petal-field" aria-hidden="true">
+            {petals.map((petal) => (
+              <span
+                key={petal.id}
+                className={`petal ${petal.blurred ? "petal--blurred" : ""}`}
+                style={{
+                  left: petal.left,
+                  "--drift": petal.drift,
+                  animationDuration: petal.duration,
+                  animationDelay: petal.delay,
+                  transform: `scale(${petal.scale}) rotate(${petal.rotation}deg)`,
+                }}
+              ></span>
+            ))}
+          </div>
 
-      {/* Background Sparkles */}
-      <div className="sparkle-field" aria-hidden="true">
-        {sparkles.map((sparkle) => (
-          <span
-            key={sparkle.id}
-            className="sparkle"
-            style={{
-              left: sparkle.left,
-              top: sparkle.top,
-              animationDuration: sparkle.duration,
-              animationDelay: sparkle.delay,
-            }}
-          ></span>
-        ))}
-      </div>
+          {/* Background Sparkles */}
+          <div className="sparkle-field" aria-hidden="true">
+            {sparkles.map((sparkle) => (
+              <span
+                key={sparkle.id}
+                className="sparkle"
+                style={{
+                  left: sparkle.left,
+                  top: sparkle.top,
+                  animationDuration: sparkle.duration,
+                  animationDelay: sparkle.delay,
+                }}
+              ></span>
+            ))}
+          </div>
 
-      {/* Background Floating Hearts */}
-      <div className="heart-field" aria-hidden="true">
-        {hearts.map((heart) => (
-          <span
-            key={heart.id}
-            className="floating-heart"
-            style={{
-              left: heart.left,
-              "--sway": heart.sway,
-              "--heart-scale": heart.scale,
-              "--heart-opacity": heart.opacity,
-              animationDuration: heart.duration,
-              animationDelay: heart.delay,
-            }}
-          ></span>
-        ))}
-      </div>
+          {/* Background Floating Hearts */}
+          <div className="heart-field" aria-hidden="true">
+            {hearts.map((heart) => (
+              <span
+                key={heart.id}
+                className="floating-heart"
+                style={{
+                  left: heart.left,
+                  "--sway": heart.sway,
+                  "--heart-scale": heart.scale,
+                  "--heart-opacity": heart.opacity,
+                  animationDuration: heart.duration,
+                  animationDelay: heart.delay,
+                }}
+              ></span>
+            ))}
+          </div>
+        </>
+      )}
 
-      {!isUploadMode && (
+      {!isConfirmationMode && !isUploadMode && (
         <EnvelopeIntro hidden={introClosed} onEnter={closeIntro} videoUrl={introVideo} />
       )}
 
       <main>
-        {isUploadMode ? (
+        {isConfirmationMode ? (
+          <AttendanceConfirmation
+            initialGuestName={rawGuestName}
+            onSubmitConfirmation={handleFinalConfirmationSubmit}
+          />
+        ) : isUploadMode ? (
           <GuestUploadSection />
         ) : (
           <>
@@ -508,10 +560,10 @@ function App() {
       </main>
 
       {/* Footer Branding section */}
-      {!isUploadMode && <WeddingFooter showSeatingFinder={SHOW_SEATING_FINDER} />}
+      {!isConfirmationMode && !isUploadMode && <WeddingFooter showSeatingFinder={SHOW_SEATING_FINDER} />}
 
       {/* Fullscreen Photo Lightbox Modal */}
-      {lightboxIndex !== null && (
+      {!isConfirmationMode && lightboxIndex !== null && (
         <div className="lightbox-modal" onClick={handleCloseLightbox} role="dialog" aria-modal="true">
           <button className="lightbox-close" onClick={handleCloseLightbox} aria-label="Close photo details">
             <i data-lucide="x" aria-hidden="true"></i>
@@ -535,9 +587,11 @@ function App() {
       )}
 
       {/* Toast Alert Popups */}
-      <div className={`toast ${toast ? "is-visible" : ""}`} role="status" aria-live="polite">
-        {toast}
-      </div>
+      {!isConfirmationMode && (
+        <div className={`toast ${toast ? "is-visible" : ""}`} role="status" aria-live="polite">
+          {toast}
+        </div>
+      )}
     </>
   );
 }
